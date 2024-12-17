@@ -8,7 +8,7 @@ from django.db import models
 class Manager(models.Model):
     fname = models.CharField(max_length=20)
     lname = models.CharField(max_length=20)
-    contact = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20)
     gender = models.CharField(max_length=20)
     dob=models.DateField()
     address=models.CharField(max_length=30)
