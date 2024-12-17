@@ -153,3 +153,6 @@ def adminDetails(request):
     r = admin.objects.all()
     return render(request, "adminDashboard/adminDetails.html", {'r': r})
 
+
+def adminReg(request):
+    return render(request, 'EMSadmin/adminReg.html')
