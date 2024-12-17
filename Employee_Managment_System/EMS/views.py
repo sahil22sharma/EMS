@@ -136,6 +136,7 @@ def loginEmployee(request):
         return render(request, "employeeLogin.html", {'msg': msg})
 
 # ----- Admin -----
+from EMS.models.adminmodel import admin
 
 def index(request):
     return render(request, "index.html")
