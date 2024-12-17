@@ -45,6 +45,7 @@ body {
 /* Container and Cards */
 .container {
     padding: 1rem;
+    text-align: center;
 }
 
 .container .wrapper {

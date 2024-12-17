@@ -25,16 +25,24 @@
 
     <div class="container">
         <div class="wrapper">
-            <div class="card">
-                Admin
-            </div>
-            <div class="card">
-                Manager
-            </div>
-            <div class="card">
-                Employee
-            </div>
+            <a href="{% url 'adminReg' %}">
+                <div class="card">
+                    Admin
+                </div>
+            </a>
+            <a href="{% url 'managerReg' %}">
+                <div class="card">
+                    Manager
+                </div>
+            </a>
+            <a href="{% url 'employeeReg' %}">
+                <div class="card">
+                    Employee
+                </div>
+            </a>
         </div>
+        <!-- <h3><a href="https://www.micronetsolutions.in/">Official Website</a></h3> -->
+
     </div>
 
     <!-- Script for Real-Time Clock -->
