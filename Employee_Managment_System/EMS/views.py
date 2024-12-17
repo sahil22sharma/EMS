@@ -10,12 +10,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import HttpResponse
 from django.urls import reverse
 
-from models import Employee, managermodel, adminmodel
+from EMS.models.managermodel import Manager
 
-<<<<<<< HEAD
 def htmlpage(request):
     return render(request, 'index.html')
-=======
 # def hello_world(request):
     #return HttpResponse("Hello, world!")
 
@@ -39,23 +37,23 @@ def saveManager(request):
     image = request.FILES['image']
     resume = request.FILES['resume']
 
-    e = managermodel(fname=fname, lname=lname, phone=phone, gender=gender,bloodGroup=bloodGroup,
+    e = Manager(fname=fname, lname=lname, phone=phone, gender=gender,bloodGroup=bloodGroup,
                  dob=dob, address=address, state=state,  qualification=qualification,
                  emailId=emailId, password=password, image=image, resume=resume)
     e.save()
     if e:
         msg = "Your Application has been Submited. We will Back to you Soon"
-        return render(request, "manager.html", {'msg': msg})
+        return render(request, "managerReg.html", {'msg': msg})
     else:
         return HttpResponse("error")
 
 def managerLogin(request):
-    return render(request, "managerLogin_.html")
+    return render(request, "managerLogin.html")
 
 def loginManager(request):
     emailId = request.POST['email']
     password = request.POST['password']
-    c = managermodel.objects.filter(emailId=emailId, password=password,account='Active')
+    c = Manager.objects.filter(emailId=emailId, password=password,account='Active')
     if c:
         request.session['mngid'] = c[0].managerCode
         request.session['managerFname'] = c[0].fname
@@ -67,7 +65,9 @@ def loginManager(request):
         return render(request, "managerLogin.html", {'msg': msg})
 
 # ----- Employee -----
-    
+
+from EMS.models.employeemodel import Employee, employeeDailyWork, E_Attendance, E_Holidays, E_Leave
+
 def employeeRegistration(request):
     return render(request, "employeeReg.html")
 
@@ -92,12 +92,12 @@ def saveEmployee(request):
     e.save()
     if e:
         msg = "Your Application has been Submited. We will Back to you Soon"
-        return render(request, "employeeRegistration.html", {'msg': msg})
+        return render(request, "employeeReg.html", {'msg': msg})
     else:
         return HttpResponse("error")
 
 def employeeLogin(request):
-    return render(request, "employeeLogin_.html")
+    return render(request, "employeeLogin.html")
 
 def loginEmployee(request):
     emailId = request.POST['email']
@@ -119,9 +119,9 @@ def loginEmployee(request):
         request.session['workId'] = feid
         print(feid)
 
-        c = Attendance.objects.filter(employeeId=request.session['empid'], date=date)
+        c = E_Attendance.objects.filter(employeeId=request.session['empid'], date=date)
         if not c:
-            attendance = Attendance(employeeId=request.session['empid'], loginTime=time, logoutTime=time, date=date,
+            attendance = E_Attendance(employeeId=request.session['empid'], loginTime=time, logoutTime=time, date=date,
                                     status='Present', employeeName=employeeName)
             attendance.save()
         else:
@@ -157,7 +157,58 @@ def adminDetails(request):
     r = admin.objects.all()
     return render(request, "adminDashboard/adminDetails.html", {'r': r})
 
-
 def adminReg(request):
     return render(request, 'EMSadmin/adminReg.html')
->>>>>>> db28b4f176e4b8006edd3ab34921a4e43be8bb43
+
+def adminlogin(request):
+    return render(request, 'adminLogin.html')
+
+def loginAdmin(request):
+    print(request)
+    emailId = request.POST['email']
+    password = request.POST['password']
+    c = admin.objects.filter(emailId=emailId, password=password)
+    if c:
+        return HttpResponseRedirect(reverse("adminDashboard"))
+       # return render(request, 'adminDashboard/index.html')
+    else:
+        msg = 'You Are Not The Valid User'
+        return render(request, "adminLogin.html", {'msg': msg})
+    
+def adminIndexPage(request):
+    employee = Employee.objects.filter(account='Active').count()
+    manager = Manager.objects.filter(account='Active').count()
+    # clientTotal = client.objects.filter(account='Active').count()
+    # projectTotal = clientProject.objects.all().count()
+    # p = clientProject.objects.filter(status='Working')
+    # l = list(p)
+    # for i in l:
+    #     #m = get_object_or_404(Manager, managerCode=i.managerId)
+    #     m = Manager.objects.filter(managerCode=i.managerId)
+    #     print(m)
+    # param = {'m': m, 'p': p, 'employee': employee, 'manager': manager, 'clientTotal': clientTotal,'projectTotal': projectTotal}
+    param = {'employee': employee, 'manager': manager, }
+    return render(request, "adminDashboard/index.html", param)
+
+def base(request):
+    return render(request, "adminDashboard/base.html")
+
+""" def projectProgressAdmin(request,pk):
+    pj = get_object_or_404(clientProject, pk=pk)
+    pid =pj.projectId
+    m = pj.managerId
+    mng = Manager.objects.filter(managerCode=m)
+    emp = Employee.objects.filter(managerId=m)
+
+    p = employeeDailyWork.objects.filter(projectId=pid).order_by('-id')
+
+    param = {'emp': emp, 'mng': mng, 'pj': pj, 'p': p}
+    return render(request, "adminDashboard/projectProgress.html", param)"""
+
+def employeeRequest(request):
+    e1 = Employee.objects.filter(account='Deactive')
+    return render(request, "adminDashboard/employeeRequest.html", {'e1': e1})
+
+def managerRequest(request):
+    e1 = Manager.objects.filter(account='Deactive')
+    return render(request, "adminDashboard/managerRequest.html", {'e1': e1})
