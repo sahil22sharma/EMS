@@ -1,15 +1,65 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>EMS</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
 </head>
+
 <body>
-    <h1>Hellllll</h1>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique dolorem et blanditiis aliquam natus nam molestiae illo eligendi quae, delectus vero at? Dicta, architecto! Facilis officia alias aspernatur accusantium recusandae quas adipisci cum maxime temporibus corrupti harum, doloribus consequatur ipsa aperiam et! Officia, nihil quisquam?
+    <div class="navbar">
+        <div class="logo">
+            <img src="/static/Img/micronet.jpg" alt="">
+            <h2>
+                Employee Management System
+            </h2>
+        </div>
+        <!-- Real-Time Clock -->
+        <div class="clock" id="clock">
+            <!-- JavaScript will display time here -->
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="wrapper">
+            <a href="{% url 'adminReg' %}">
+                <div class="card">
+                    Admin
+                </div>
+            </a>
+            <a href="{% url 'managerReg' %}">
+                <div class="card">
+                    Manager
+                </div>
+            </a>
+            <a href="{% url 'employeeReg' %}">
+                <div class="card">
+                    Employee
+                </div>
+            </a>
+        </div>
+        <!-- <h3><a href="https://www.micronetsolutions.in/">Official Website</a></h3> -->
+
+    </div>
+
+    <!-- Script for Real-Time Clock -->
+    <script>
+        function updateClock() {
+            const clockElement = document.getElementById('clock');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call to display clock immediately
+    </script>
 </body>
+
 </html>

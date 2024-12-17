@@ -12,6 +12,9 @@ body{
     align-items: center;
     justify-content: center;
     background: #4070f4;
+    background: url(../Img/earth.webp);
+    background-position: center;
+    background-size: cover;
 }
 .container{
     position: relative;
@@ -42,7 +45,7 @@ body{
 .container form{
     position: relative;
     margin-top: 16px;
-    min-height: 20rem;
+    min-height: 30rem;
     background-color: #fff;
     overflow: hidden;
 }

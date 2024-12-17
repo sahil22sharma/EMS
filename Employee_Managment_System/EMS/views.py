@@ -12,13 +12,19 @@ from django.urls import reverse
 
 from EMS.models.managermodel import Manager
 
+
+def homepage(request):
+    return render(request,'index.html')
+
+def htmlpage(request):
+    return render(request, 'index.html')
 # def hello_world(request):
     #return HttpResponse("Hello, world!")
 
 # ----- Manager -----
 
 def managerRegistration(request):
-    return render(request, "manager.html")
+    return render(request, "manager/managerReg.html")
 
 def saveManager(request):
     fname = request.POST['fname']
@@ -46,7 +52,7 @@ def saveManager(request):
         return HttpResponse("error")
 
 def managerLogin(request):
-    return render(request, "managerLogin.html")
+    return render(request, "/managerLogin.html")
 
 def loginManager(request):
     emailId = request.POST['email']
@@ -67,7 +73,7 @@ def loginManager(request):
 from EMS.models.employeemodel import Employee, employeeDailyWork, E_Attendance, E_Holidays, E_Leave
 
 def employeeRegistration(request):
-    return render(request, "employeeReg.html")
+    return render(request, "employee/employeeReg.html")
 
 def saveEmployee(request):
     fname = request.POST['fname']
@@ -95,7 +101,7 @@ def saveEmployee(request):
         return HttpResponse("error")
 
 def employeeLogin(request):
-    return render(request, "employeeLogin.html")
+    return render(request, "employee/employeeReg.html")
 
 def loginEmployee(request):
     emailId = request.POST['email']
@@ -136,7 +142,7 @@ def index(request):
     return render(request, "index.html")
 
 def newAdmin(request):
-    return render(request, "adminReg.html")
+    return render(request, "EMSadmin/adminReg.html")
 
 def saveAdmin(request):
     fname = request.POST['fname']
