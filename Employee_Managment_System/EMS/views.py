@@ -7,4 +7,4 @@ def hello_world(request):
     return HttpResponse("Hello, world!")
 
 def htmlpage(request):
-    return render(request, 'EMSadmin/adminReg.html')
+    return render(request, 'index.html')
