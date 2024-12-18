@@ -6,15 +6,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
-    <link rel="stylesheet" href="{% static 'admincss/adminLogin.css' %}">
+    <title>Manager Login</title>
+    <link rel="stylesheet" href="{% static 'managercss/managerLogin.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
 <body>
     <div class="wrapper">
-        <header>Login Form</header>
-        <form action="/testlogin/" method="POST">
+        <header>Manager Login</header>
+        <form action="/testloginManager/" method="POST">
             {% csrf_token %}
             
             <div class="field email">
@@ -44,7 +44,7 @@
             <input type="submit" value="Login">
         </form>
         
-        <div class="sign-txt">Not yet member? <a href="{% url 'adminReg'%}">Signup now</a></div>
+        <div class="sign-txt">Not yet member? <a href="{% url 'managerReg'%}">Signup now</a></div>
     </div>
 
   

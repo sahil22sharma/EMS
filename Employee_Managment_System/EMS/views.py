@@ -29,30 +29,29 @@ def managerRegistration(request):
 def saveManager(request):
     fname = request.POST['fname']
     lname = request.POST['lname']
-    phone = request.POST['phone']
+    phone = request.POST['contact']
     gender = request.POST['gender']
-    bloodGroup = request.POST['bloodGroup']
     dob=request.POST['dob']
     address = request.POST['address']
     state=request.POST['state']
     qualification=request.POST['qualification']
     emailId = request.POST['email']
     password = request.POST['password']
-    image = request.FILES['image']
-    resume = request.FILES['resume']
+    # image = request.FILES['image']
+    # resume = request.FILES['resume']
 
-    e = Manager(fname=fname, lname=lname, phone=phone, gender=gender,bloodGroup=bloodGroup,
+    e = Manager(fname=fname, lname=lname, contact=phone, gender=gender,
                  dob=dob, address=address, state=state,  qualification=qualification,
-                 emailId=emailId, password=password, image=image, resume=resume)
+                 emailId=emailId, password=password)
     e.save()
     if e:
         msg = "Your Application has been Submited. We will Back to you Soon"
-        return render(request, "managerReg.html", {'msg': msg})
+        return HttpResponseRedirect(reverse("home"))
     else:
         return HttpResponse("error")
 
 def managerLogin(request):
-    return render(request, "/managerLogin.html")
+    return render(request, "manager/managerLogin.html")
 
 def loginManager(request):
     emailId = request.POST['email']
@@ -78,30 +77,29 @@ def employeeRegistration(request):
 def saveEmployee(request):
     fname = request.POST['fname']
     lname = request.POST['lname']
-    phone = request.POST['phone']
+    phone = request.POST['contact']
     gender = request.POST['gender']
-    bloodGroup = request.POST['bloodGroup']
     dob=request.POST['dob']
     address = request.POST['address']
     state=request.POST['state']
     qualification=request.POST['qualification']
     emailId = request.POST['email']
     password = request.POST['password']
-    image = request.FILES['image']
-    resume = request.FILES['resume']
+    # image = request.FILES['image']
+    # resume = request.FILES['resume']
     
-    e = Employee(fname=fname, lname=lname, phone=phone, gender=gender,bloodGroup=bloodGroup,
+    e = Employee(fname=fname, lname=lname, contact=phone, gender=gender,
                  dob=dob, address=address, state=state,  qualification=qualification,
-                 emailId=emailId, password=password, image=image, resume=resume)
+                 emailId=emailId, password=password)
     e.save()
     if e:
         msg = "Your Application has been Submited. We will Back to you Soon"
-        return render(request, "employeeReg.html", {'msg': msg})
+        return HttpResponseRedirect(reverse("home"))
     else:
         return HttpResponse("error")
 
 def employeeLogin(request):
-    return render(request, "employee/employeeReg.html")
+    return render(request, "employee/employeeLogin.html")
 
 def loginEmployee(request):
     emailId = request.POST['email']
@@ -254,7 +252,6 @@ def testlogin(request):
     if request.method == 'POST':
         emailId = request.POST['email']
         password = request.POST['password']
-        print(emailId,password)
         c = admin.objects.filter(emailId=emailId, password=password)  # Adjust to your admin model
         if c:
             # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
@@ -265,3 +262,34 @@ def testlogin(request):
     else:
         return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
         # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+
+def testloginEmployee(request):
+    if request.method == 'POST':
+        emailId = request.POST['email']
+        password = request.POST['password']
+        c = Employee.objects.filter(emailId=emailId, password=password)  # Adjust to your admin model
+        if c:
+            # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+            # return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+            return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+        else:
+            return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+    else:
+        return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+        # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+
+def testloginManager(request):
+    if request.method == 'POST':
+        emailId = request.POST['email']
+        password = request.POST['password']
+        c = Manager.objects.filter(emailId=emailId, password=password)  # Adjust to your admin model
+        if c:
+            # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+            # return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+            return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+        else:
+            return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+    else:
+        return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+        # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+
