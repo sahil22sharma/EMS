@@ -17,6 +17,11 @@ urlpatterns = [
     path('adminLogin/',views.adminlogin,name='adminlogin'), # redirect to login page
     # path('loginAdmin/',views.loginAdmin,name='loginAdmin'), 
     path('login/', views.login, name='login'),  # The login page URL
+
+    path('testlogin/',views.testlogin,name='testlogin'),
+    path('adminDash/',views.base),
+    path('adminDash/Index', views.adminIndexPage,name='adminDash'),
+    path('adminDash/manager', views.managerRequest,name='managerRequest'),
     path('testlogin/',views.testlogin,name='testlogin'),
     path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
     path('testloginManager/',views.testloginManager,name='testloginManager'),
