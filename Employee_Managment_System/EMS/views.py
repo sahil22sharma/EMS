@@ -87,9 +87,9 @@ def saveEmployee(request):
     emailId = request.POST['email']
     password = request.POST['password']
     # image = request.FILES['image']
-    # resume = request.FILES['resume']
+    # resume = request.FILES['resume'
     
-    e = Employee(fname=fname, lname=lname, contact=phone, gender=gender,
+    e = Employee(fname=fname, lname=lname, phone=phone, gender=gender,
                  dob=dob, address=address, state=state,  qualification=qualification,
                  emailId=emailId, password=password)
     e.save()
