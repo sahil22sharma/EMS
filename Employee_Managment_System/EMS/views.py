@@ -166,20 +166,48 @@ def adminReg(request):
     return render(request, 'EMSadmin/adminReg.html')
 
 def adminlogin(request):
-    return render(request, 'adminLogin.html')
+    return render(request, 'EMSadmin/adminLogin.html')
 
 def loginAdmin(request):
-    print(request)
-    emailId = request.POST['email']
-    password = request.POST['password']
+    # print(request)
+    emailId = request.POST.get('email')
+    password = request.POST.get('password')
     c = admin.objects.filter(emailId=emailId, password=password)
     if c:
         return HttpResponseRedirect(reverse("home"))
        # return render(request, 'adminDashboard/index.html')
     else:
         msg = 'You Are Not The Valid User'
-        return render(request, "adminLogin.html", {'msg': msg})
+        print(msg)
+        return render(request, "EMSadmin/adminLogin.html", {'msg': msg})
     
+
+
+
+def login(request):
+    if request.method == 'POST':
+        # Get email and password from POST data
+        email = request.POST.get('email')  # Form field 'email'
+        password = request.POST.get('password')  # Form field 'password'
+        
+        # Verify user credentials
+        c = admin.objects.filter(emailId=email, password=password)  # Adjust to your admin model
+        if c.exists():  # Check if there's a matching admin
+            return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+        else:
+            # Invalid login credentials, show error message
+            msg = 'You are not a valid user'
+            print(msg)
+            return render(request, "EMSadmin/adminLogin.html", {'msg': msg})  # Render the login page with error message
+    else:
+        # For GET request, simply render the login page
+        print('NOTTTT')
+        # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+        return render(request, "employee/employeeReg.html")
+
+
+
+
 def adminIndexPage(request):
     employee = Employee.objects.filter(account='Active').count()
     manager = Manager.objects.filter(account='Active').count()
@@ -217,3 +245,23 @@ def employeeRequest(request):
 def managerRequest(request):
     e1 = Manager.objects.filter(account='Deactive')
     return render(request, "adminDashboard/managerRequest.html", {'e1': e1})
+
+
+
+
+
+def testlogin(request):
+    if request.method == 'POST':
+        emailId = request.POST['email']
+        password = request.POST['password']
+        print(emailId,password)
+        c = admin.objects.filter(emailId=emailId, password=password)  # Adjust to your admin model
+        if c:
+            # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+            # return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+            return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+        else:
+            return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+    else:
+        return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
+        # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
