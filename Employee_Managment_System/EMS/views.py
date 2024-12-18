@@ -154,7 +154,7 @@ def saveAdmin(request):
     r = admin(fname=fname, lname=lname, contact=phone, gender=gender, emailId=emailId, password=password)
     r.save()
     if r:
-        return HttpResponseRedirect(reverse("adminDashboard"))
+        return HttpResponseRedirect(reverse("home"))
     else:
         HttpResponseRedirect("Registration Failed")
     
@@ -174,7 +174,7 @@ def loginAdmin(request):
     password = request.POST['password']
     c = admin.objects.filter(emailId=emailId, password=password)
     if c:
-        return HttpResponseRedirect(reverse("adminDashboard"))
+        return HttpResponseRedirect(reverse("home"))
        # return render(request, 'adminDashboard/index.html')
     else:
         msg = 'You Are Not The Valid User'
