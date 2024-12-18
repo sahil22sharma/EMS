@@ -38,18 +38,12 @@ def saveManager(request):
     qualification=request.POST['qualification']
     emailId = request.POST['email']
     password = request.POST['password']
-    # image = request.FILES['image']
-    # resume = request.FILES['resume']
-
-<<<<<<< HEAD
-    e = Manager(fname=fname, lname=lname, contact=phone, gender=gender,
-                 dob=dob, address=address, state=state,  qualification=qualification,
-                 emailId=emailId, password=password)
-=======
-    e = Manager(fname=fname, lname=lname, phone=phone, gender=gender,bloodGroup=bloodGroup,
+    image = request.FILES['image']
+    resume = request.FILES['resume']
+    e = Manager(fname=fname, lname=lname, phone=phone, gender=gender,
                  dob=dob, address=address, state=state, joinDate=joinDate, qualification=qualification,
                  emailId=emailId, password=password, image=image, resume=resume)
->>>>>>> 638369ef920511389f82edc77293314afcf30d19
+
     e.save()
     if e:
         msg = "Your Application has been Submited. We will Back to you Soon"
@@ -268,7 +262,6 @@ def editManager(request,pk):
     e = get_object_or_404(Manager, managerCode=pk)
     return render(request, "adminDashboard/editManager.html",  {'e': e})
 
-<<<<<<< HEAD
 def testlogin(request):
     if request.method == 'POST':
         emailId = request.POST['email']
@@ -314,7 +307,6 @@ def testloginManager(request):
         return render(request, "EMSadmin/adminLogin.html")  # Render the login page with error message
         # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
 
-=======
 def updateEmployee(request):
     id = request.POST['id']
     fname = request.POST['fname']
@@ -614,4 +606,3 @@ def saveUserProfile(request):
         return render(request, "employeeDashboard/userProfile.html")
     else:
         return HttpResponse("Record Not Updated")
->>>>>>> 638369ef920511389f82edc77293314afcf30d19
