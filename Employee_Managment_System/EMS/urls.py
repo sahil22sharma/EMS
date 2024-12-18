@@ -25,11 +25,9 @@ urlpatterns = [
     path('testlogin/',views.testlogin,name='testlogin'),
     path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
     path('testloginManager/',views.testloginManager,name='testloginManager'),
-
-
-
-
-
- path('adminDash/managerlist', views.managerlist,name='managerlist'),
+    path('adminDash/managerlist', views.managerlist,name='managerlist'),
+    path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
+    path('adminDash/employeelist', views.employeelist,name='employeelist'),
+    path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
 
 ]

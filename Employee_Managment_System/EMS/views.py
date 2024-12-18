@@ -240,7 +240,7 @@ def employeeRequest(request):
 
 def managerRequest(request):
     # e1 = Manager.objects.filter(account='Deactive')
-    return render(request, "EMSadmin/managerlist.html")
+    return render(request, "EMSadmin/manager.html")
 
 def allEmployee(request):
     e1 = Employee.objects.filter(account='Active')
@@ -609,4 +609,13 @@ def saveUserProfile(request):
 
 
 def managerlist(request):
-    return render(request, "EMSadmin/managerlist_List.html")
+    return render(request, "EMSadmin/managerList.html")
+
+def managerrequest(request):
+    return render(request,"EMSadmin/managerRequest.html")
+
+def employeelist(request):
+    return render(request, "EMSadmin/employeeList.html")
+
+def employeerequest(request):
+    return render(request, "EMSadmin/employeeRequest.html")
