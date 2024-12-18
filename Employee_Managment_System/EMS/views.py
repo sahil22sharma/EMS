@@ -220,11 +220,11 @@ def adminIndexPage(request):
     #     m = Manager.objects.filter(managerCode=i.managerId)
     #     print(m)
     # param = {'m': m, 'p': p, 'employee': employee, 'manager': manager, 'clientTotal': clientTotal,'projectTotal': projectTotal}
-    param = {'employee': employee, 'manager': manager, }
-    return render(request, "adminDashboard/index.html", param)
+    # param = {'employee': employee, 'manager': manager, }
+    return render(request, "EMSadmin/indexDash.html")
 
 def base(request):
-    return render(request, "adminDashboard/base.html")
+    return render(request, "EMSadmin/base.html")
 
 """ def projectProgressAdmin(request,pk):
     pj = get_object_or_404(clientProject, pk=pk)
@@ -243,8 +243,8 @@ def employeeRequest(request):
     return render(request, "adminDashboard/employeeRequest.html", {'e1': e1})
 
 def managerRequest(request):
-    e1 = Manager.objects.filter(account='Deactive')
-    return render(request, "adminDashboard/managerRequest.html", {'e1': e1})
+    # e1 = Manager.objects.filter(account='Deactive')
+    return render(request, "EMSadmin/managerlist.html")
 
 
 

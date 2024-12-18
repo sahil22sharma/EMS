@@ -14,6 +14,8 @@ urlpatterns = [
     # path('login/',views.login,name='login'),
     path('login/', views.login, name='login'),  # The login page URL
 
-    path('testlogin/',views.testlogin,name='testlogin')
-
+    path('testlogin/',views.testlogin,name='testlogin'),
+    path('adminDash/',views.base),
+    path('adminDash/Index', views.adminIndexPage,name='adminDash'),
+    path('adminDash/manager', views.managerRequest,name='managerRequest'),
 ]
