@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 class Employee(models.Model):
     fname = models.CharField(max_length=20)
     lname = models.CharField(max_length=20)
-    contact = models.CharField(max_length=10)
+    phone = models.CharField(max_length=10)
     gender = models.CharField(max_length=20)
     dob=models.DateField()
     address=models.CharField(max_length=30)
@@ -55,55 +55,3 @@ class employeeDailyWork(models.Model):
     projectId = models.IntegerField(null=True)
     duration = models.IntegerField(null=True)
     image = models.ImageField(upload_to='images/', null=True)
-
-class E_Attendance(models.Model):
-    id = models.AutoField(primary_key=True)
-    employeeId = models.CharField(max_length=20)
-    employeeName = models.CharField(max_length=20, null=True)
-    date = models.DateField()
-    loginTime = models.DateTimeField()
-    logoutTime = models.DateTimeField()
-    status = models.CharField(max_length=20, default='Absent')
-    absentStatus = models.CharField(max_length=20, null=True)
-
-class E_monthSalary(models.Model):
-    id = models.AutoField(primary_key=True)
-    empCode=models.CharField(max_length=20)
-    dateCreated=models.DateTimeField(null=True)
-    date = models.DateField(null=True)
-    month = models.CharField(max_length=20,null=True)
-    year = models.IntegerField(null=True)
-    totalTime = models.IntegerField()
-    finalSalary = models.IntegerField()
-    status = models.CharField(max_length=20,null=True)
-    
-class E_Leave(models.Model):
-    leaveId = models.AutoField(primary_key=True)
-    employeeId = models.CharField(max_length=20)
-    employeeName = models.CharField(max_length=20, null=True)
-    managerId = models.CharField(max_length=20, null=True)
-    startDate = models.DateField()
-    endDate = models.DateField()
-    totalDays = models.IntegerField(default=0)
-    employeeReason = models.CharField(max_length=40)
-    managerReason = models.CharField(max_length=40)
-    appliedDate = models.DateTimeField(default=datetime.now, blank=True)
-    status = models.CharField(max_length=10)
-    leaveType = models.CharField(max_length=20, null=True)
-    
-class E_Holidays(models.Model):
-    hoildayId = models.AutoField(primary_key=True)
-    holidayName = models.CharField(max_length=20)
-    hoildayDescription = models.CharField(max_length=30)
-    hoildayDate = models.DateField()
-    hoildayDay = models.CharField(max_length=20)
-
-def saveHoliday(request):
-    holidayName = request.POST['holidayName']
-    hoildayDate = request.POST['hoildayDate']
-    hoildayDay = request.POST['hoildayDay']
-    hoildayDescription = request.POST['hoildayDescription']
-
-    h = E_Holidays(holidayName=holidayName, hoildayDate=hoildayDate, hoildayDay= hoildayDay, hoildayDescription=hoildayDescription)
-    h.save()
-    return HttpResponseRedirect(redirect_to=("holidays"))
