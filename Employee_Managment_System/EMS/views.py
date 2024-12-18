@@ -155,7 +155,7 @@ def saveAdmin(request):
     r = admin(fname=fname, lname=lname, phone=phone, gender=gender, emailId=emailId, password=password)
     r.save()
     if r:
-        return HttpResponseRedirect(reverse("adminDashboard"))
+        return HttpResponseRedirect(reverse("home"))
     else:
         HttpResponseRedirect("Registration Failed")
     
@@ -167,20 +167,45 @@ def adminReg(request):
     return render(request, 'EMSadmin/adminReg.html')
 
 def adminlogin(request):
-    return render(request, 'adminLogin.html')
+    return render(request, 'EMSadmin/adminLogin.html')
 
 def loginAdmin(request):
-    print(request)
-    emailId = request.POST['email']
-    password = request.POST['password']
+    # print(request)
+    emailId = request.POST.get('email')
+    password = request.POST.get('password')
     c = admin.objects.filter(emailId=emailId, password=password)
     if c:
-        return HttpResponseRedirect(reverse("adminDashboard"))
+        return HttpResponseRedirect(reverse("home"))
        # return render(request, 'adminDashboard/index.html')
     else:
         msg = 'You Are Not The Valid User'
-        return render(request, "adminLogin.html", {'msg': msg})
+        print(msg)
+        return render(request, "EMSadmin/adminLogin.html", {'msg': msg})
     
+
+
+
+def login(request):
+    if request.method == 'POST':
+        # Get email and password from POST data
+        email = request.POST.get('email')  # Form field 'email'
+        password = request.POST.get('password')  # Form field 'password'
+        
+        # Verify user credentials
+        c = admin.objects.filter(emailId=email, password=password)  # Adjust to your admin model
+        if c.exists():  # Check if there's a matching admin
+            return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+        else:
+            # Invalid login credentials, show error message
+            msg = 'You are not a valid user'
+            print(msg)
+            return render(request, "EMSadmin/adminLogin.html", {'msg': msg})  # Render the login page with error message
+    else:
+        # For GET request, simply render the login page
+        print('NOTTTT')
+        # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
+        return render(request, "employee/employeeReg.html")
+
 def adminIndexPage(request):
     employee = Employee.objects.filter(account='Active').count()
     manager = Manager.objects.filter(account='Active').count()
@@ -538,38 +563,3 @@ def saveUserProfile(request):
         return render(request, "employeeDashboard/userProfile.html")
     else:
         return HttpResponse("Record Not Updated")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-""" from django.contrib.auth.models import User
-from .models import UserProfile
-from django.http import HttpResponse
-
-def create_user(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        role = request.POST['role']  # e.g., admin/manager/employee
-
-        # Create User
-        user = profile.objects.create_user(username=username, email=email, password=password)
-
-        # Create UserProfile
-        profile = UserProfile.objects.create(user=user, role=role)
-
-        return HttpResponse("User Created Successfully") """
-        
