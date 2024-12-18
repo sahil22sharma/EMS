@@ -606,3 +606,7 @@ def saveUserProfile(request):
         return render(request, "employeeDashboard/userProfile.html")
     else:
         return HttpResponse("Record Not Updated")
+
+
+def managerlist(request):
+    return render(request, "EMSadmin/managerlist_List.html")

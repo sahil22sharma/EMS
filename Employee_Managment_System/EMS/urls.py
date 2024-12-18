@@ -25,4 +25,11 @@ urlpatterns = [
     path('testlogin/',views.testlogin,name='testlogin'),
     path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
     path('testloginManager/',views.testloginManager,name='testloginManager'),
+
+
+
+
+
+ path('adminDash/managerlist', views.managerlist,name='managerlist'),
+
 ]
