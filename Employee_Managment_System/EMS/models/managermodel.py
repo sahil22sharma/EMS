@@ -7,7 +7,7 @@ from django.db import models
 class Manager(models.Model):
     fname = models.CharField(max_length=20)
     lname = models.CharField(max_length=20)
-    contact = models.CharField(max_length=10)
+    phone = models.CharField(max_length=10)
     gender = models.CharField(max_length=20)
     dob=models.DateField()
     address=models.CharField(max_length=30)
@@ -33,45 +33,4 @@ class Manager(models.Model):
             no = no + 1
         self.managerCode = "{}{:03}".format('MANAGER', no)
         super().save(*kwargs)
-
-class M_tasks(models.Model):
-    id = models.AutoField(primary_key=True)
-    employeeId = models.CharField(max_length=20)
-    employeeName = models.CharField(max_length=20,null=True)
-    managerId = models.CharField(max_length=20)
-    clientId = models.IntegerField(null=True)
-    projectName = models.CharField(max_length=20,null=True)
-    date = models.DateField()
-    workDescription = models.CharField(max_length=40, null=True)
-    fileUpload = models.FileField(upload_to='documents',null=True)
-
-class M_Attendance(models.Model):
-    id = models.AutoField(primary_key=True)
-    employeeId = models.CharField(max_length=20)
-    employeeName = models.CharField(max_length=20, null=True)
-    date = models.DateField()
-    loginTime = models.DateTimeField()
-    logoutTime = models.DateTimeField()
-    status = models.CharField(max_length=20, default='Absent')
-    absentStatus = models.CharField(max_length=20, null=True)
     
-class M_Leave(models.Model):
-    leaveId = models.AutoField(primary_key=True)
-    employeeId = models.CharField(max_length=20)
-    employeeName = models.CharField(max_length=20, null=True)
-    managerId = models.CharField(max_length=20, null=True)
-    startDate = models.DateField()
-    endDate = models.DateField()
-    totalDays = models.IntegerField(default=0)
-    employeeReason = models.CharField(max_length=40)
-    managerReason = models.CharField(max_length=40)
-    appliedDate = models.DateTimeField(default=datetime.now, blank=True)
-    status = models.CharField(max_length=10)
-    leaveType = models.CharField(max_length=20, null=True)
-    
-class M_Holidays(models.Model):
-    hoildayId = models.AutoField(primary_key=True)
-    holidayName = models.CharField(max_length=20)
-    hoildayDescription = models.CharField(max_length=30)
-    hoildayDate = models.DateField()
-    hoildayDay = models.CharField(max_length=20)

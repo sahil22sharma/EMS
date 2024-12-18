@@ -6,16 +6,26 @@ urlpatterns = [
 
     # Signup Routes
     path('adminReg/',views.adminReg, name='adminReg'),
+    path('adminlogin/',views.adminlogin, name='adminlogin'),
     path('employeeReg/',views.employeeRegistration, name='employeeReg'),
+    path('employeeLogin/',views.employeeLogin, name='employeeLogin'),
     path('managerReg/',views.managerRegistration, name='managerReg'),
+    path('managerLogin/',views.managerLogin, name='managerLogin'),
     path('saveAdmin/',views.saveAdmin,name='saveAdmin'),
-    path('adminlogin/',views.adminlogin,name='adminlogin'), # redirect to login page
-    path('loginAdmin/',views.loginAdmin,name='loginAdmin'), 
-    # path('login/',views.login,name='login'),
+    path('saveManager/',views.saveManager,name='saveManager'),
+    path('saveEmployee/',views.saveEmployee,name='saveEmployee'),
+    path('adminLogin/',views.adminlogin,name='adminlogin'), # redirect to login page
+    # path('loginAdmin/',views.loginAdmin,name='loginAdmin'), 
     path('login/', views.login, name='login'),  # The login page URL
+<<<<<<< HEAD
 
     path('testlogin/',views.testlogin,name='testlogin'),
     path('adminDash/',views.base),
     path('adminDash/Index', views.adminIndexPage,name='adminDash'),
     path('adminDash/manager', views.managerRequest,name='managerRequest'),
+=======
+    path('testlogin/',views.testlogin,name='testlogin'),
+    path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
+    path('testloginManager/',views.testloginManager,name='testloginManager'),
+>>>>>>> f4c0d0f85cb6a1b508c6453fcaa1970b9003b1e8
 ]
