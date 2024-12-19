@@ -10,12 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!----======== CSS ======== -->
-    <link rel="stylesheet" href="{% static 'admincss/base.css' %}">
+    <link rel="stylesheet" href="{% static 'managercss/base.css' %}">
 
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
-    <title>Admin Dashboard Panel</title>
+    <title>Manager Dashboard Panel</title>
 </head>
 
 <body>
@@ -31,27 +31,25 @@
 
         <div class="menu-items">
             <ul class="nav-links">
-                <li><a href="{% url 'adminDash' %}">
+                <li><a href="{% url 'managerDash' %}">
                         <i class="uil uil-estate"></i>
                         <span class="link-name">Dashboard</span>
                     </a></li>
-                <li><a href="{% url 'managerlist' %}">
+                <!-- <li><a href="{% url 'managerlist' %}">
                         <i class="uil uil-user-exclamation"></i>
                         <span class="link-name">Manager</span>
-                    </a></li>
-                <li><a href="{% url 'employeelist' %}">
-                        <!-- <i class="uil uil-files-landscapes"></i> -->
+                    </a></li>-->
+                <li><a href="{% url 'managerEmployeelist' %}">
                         <i class="uil uil-user"></i>
                         <span class="link-name">Employee</span>
                     </a></li>
                 <li><a href="#">
-                        <!-- <i class="uil uil-chart"></i> -->
                         <i class="uil uil-clipboard-notes"></i>
                         <span class="link-name">Task</span>
                     </a></li>
-                <li><a href="{% url 'employeestatus' %}">
+                <li><a href="#">
                         <i class="uil uil-book-open"></i>
-                        <span class="link-name">Employee Status</span>
+                        <span class="link-name">Projects</span>
                     </a></li>
                 <li><a href="#">
                         <i class="uil uil-clipboard-blank"></i>
@@ -66,7 +64,6 @@
                         <span class="link-name">Holiday</span>
                     </a></li>
                 <li><a href="#">
-                        <!-- <i class="uil uil-share"></i> -->
                         <i class="uil uil-envelope-exclamation"></i>
                         <span class="link-name">Notices</span>
                     </a></li>
@@ -101,10 +98,7 @@
                 <input type="text" placeholder="Search here...">
             </div> -->
 
-            <div class="">
-                <img src="/static/Img/micronet.jpg" alt="img">
-                 <!-- <h3>Ritesh</h3> -->
-            </div>
+            <img src="images/profile.jpg" alt="">
         </div>
 
         <div>

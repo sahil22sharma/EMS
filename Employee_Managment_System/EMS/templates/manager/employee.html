@@ -1,0 +1,34 @@
+{% extends 'manager/base.html' %} {% block content %}
+{% load static %}
+
+<div class="dash-content">
+
+    <div class="activity">
+        <div class="title">
+            <i class="uil uil-clock-three"></i>
+            <span class="text">Employee</span>
+        </div>
+        <div class="menu-items">
+            <ul class="hnav-links">
+                <li>
+                    <a href="{% url 'managerEmployeelist' %}">
+                        <!-- <i class="uil uil-chart"></i> -->
+                        <i class="uil uil-clipboard"></i>
+                        <span class="link-name">List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'managerEmployeerequest' %}">
+                        <!-- <i class="uil uil-chart"></i> -->
+                        <i class="uil uil-clipboard"></i>
+                        <span class="link-name">Request</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+       {% block employee %} {% endblock %}
+    </div>
+</div>
+
+{% endblock %}
