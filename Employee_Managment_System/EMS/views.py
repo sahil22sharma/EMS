@@ -23,8 +23,6 @@
 
 # # ----- Manager -----
 
-# def managerRegistration(request):
-#     return render(request, "manager/managerReg.html")
 
 # def saveManager(request):
 #     fname = request.POST['fname']
@@ -51,8 +49,8 @@
 #     else:
 #         return HttpResponse("error")
 
-# def managerLogin(request):
-#     return render(request, "manager/managerLogin.html")
+def managerLogin(request):
+    return render(request, "manager/managerLogin.html")
 
 # def loginManager(request):
 #     emailId = request.POST['email']
@@ -72,8 +70,8 @@
 # from EMS.models import attendance, holiday, leave, salary, tasks, notice
 # from EMS.models.employeemodel import Employee, employeeDailyWork
 
-# def employeeRegistration(request):
-#     return render(request, "employee/employeeReg.html")
+def employeeRegistration(request):
+    return render(request, "employee/employeeReg.html")
 
 # def saveEmployee(request):
 #     fname = request.POST['fname']
@@ -99,8 +97,8 @@
 #     else:
 #         return HttpResponse("error")
 
-# def employeeLogin(request):
-#     return render(request, "employee/employeeLogin.html")
+def employeeLogin(request):
+    return render(request, "employee/employeeLogin.html")
 
 # def loginEmployee(request):
 #     emailId = request.POST['email']
@@ -140,8 +138,8 @@
 # def index(request):
 #     return render(request, "index.html")
 
-# def newAdmin(request):
-#     return render(request, "EMSadmin/adminReg.html")
+def newAdmin(request):
+    return render(request, "EMSadmin/adminReg.html")
 
 # def saveAdmin(request):
 #     fname = request.POST['fname']
@@ -161,11 +159,6 @@
 #     r = admin.objects.all()
 #     return render(request, "adminDashboard/adminDetails.html", {'r': r})
 
-# def adminReg(request):
-#     return render(request, 'EMSadmin/adminReg.html')
-
-# def adminlogin(request):
-#     return render(request, 'EMSadmin/adminLogin.html')
 
 # def loginAdmin(request):
 #     # print(request)
@@ -204,7 +197,7 @@
 #         # return HttpResponseRedirect(reverse("home"))  # Redirect to home if login is successful
 #         return render(request, "employee/employeeReg.html")
 
-# def adminIndexPage(request):
+def adminIndexPage(request):
 #     employee = Employee.objects.filter(account='Active').count()
 #     manager = Manager.objects.filter(account='Active').count()
 #     # clientTotal = client.objects.filter(account='Active').count()
@@ -217,10 +210,8 @@
 #     #     print(m)
 #     # param = {'m': m, 'p': p, 'employee': employee, 'manager': manager, 'clientTotal': clientTotal,'projectTotal': projectTotal}
 #     # param = {'employee': employee, 'manager': manager, }
-#     return render(request, "EMSadmin/indexDash.html")
+    return render(request, "EMSadmin/indexDash.html")
 
-# def base(request):
-#     return render(request, "EMSadmin/base.html")
 
 # """ def projectProgressAdmin(request,pk):
 #     pj = get_object_or_404(clientProject, pk=pk)
@@ -238,9 +229,9 @@
 #     e1 = Employee.objects.filter(account='Deactive')
 #     return render(request, "adminDashboard/employeeRequest.html", {'e1': e1})
 
-# def managerRequest(request):
-#     # e1 = Manager.objects.filter(account='Deactive')
-#     return render(request, "EMSadmin/manager.html")
+def managerRequest(request):
+    # e1 = Manager.objects.filter(account='Deactive')
+    return render(request, "EMSadmin/manager.html")
 
 # def allEmployee(request):
 #     e1 = Employee.objects.filter(account='Active')
@@ -607,18 +598,32 @@
 #     else:
 #         return HttpResponse("Record Not Updated")
 
+def base(request):
+    return render(request, "EMSadmin/base.html")
 
-# def managerlist(request):
-#     return render(request, "EMSadmin/managerList.html")
 
-# def managerrequest(request):
-#     return render(request,"EMSadmin/managerRequest.html")
+def managerRegistration(request):
+    return render(request, "manager/managerReg.html")
 
-# def employeelist(request):
-#     return render(request, "EMSadmin/employeeList.html")
 
-# def employeerequest(request):
-#     return render(request, "EMSadmin/employeeRequest.html")
+def managerlist(request):
+    return render(request, "EMSadmin/managerList.html")
+
+def managerrequest(request):
+    return render(request,"EMSadmin/managerRequest.html")
+
+def employeelist(request):
+    return render(request, "EMSadmin/employeeList.html")
+
+def employeerequest(request):
+    return render(request, "EMSadmin/employeeRequest.html")
+
+
+def adminReg(request):
+    return render(request, 'EMSadmin/adminReg.html')
+
+def adminlogin(request):
+    return render(request, 'EMSadmin/adminLogin.html')
 
 
 from django.shortcuts import render, redirect
@@ -684,6 +689,10 @@ def user_login(request):
     return render(request, 'employee/employeeLogin.html')
 
 # Example home view (to be redirected after login/registration)
+
+def index(request):
+    return render(request, 'index.html')
+    
 def home(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
