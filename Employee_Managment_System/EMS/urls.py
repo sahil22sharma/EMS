@@ -29,6 +29,12 @@ urlpatterns = [
     path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
     path('adminDash/employeelist', views.employeelist,name='employeelist'),
     path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
-    path('adminDash/employeeStatus',views.employeeStatus,name='employeestatus')
+    path('adminDash/employeeStatus',views.employeeStatus,name='employeestatus'),
 
+    path('employeeDash/',views.baseEmployee),
+    path('employeeDash/Index', views.employeeIndexPage,name='employeeDash'),
+    path('managerDash/',views.baseManager),
+    path('managerDash/Index', views.managerIndexPage,name='managerDash'),
+    path('managerDash/employeelist', views.managerEmployeelist,name='managerEmployeelist'),
+    path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),
 ]
