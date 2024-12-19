@@ -17,6 +17,7 @@ class Profile(models.Model):
     address = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=100, blank=True, null=True)
     qualification = models.CharField(max_length=200, blank=True, null=True)
+    # account=models.CharField(max_length=20,default="Deactive")
     
     def __str__(self):
         return f'{self.user.username} - {self.get_role_display()}'

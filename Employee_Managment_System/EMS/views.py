@@ -825,3 +825,8 @@ def managerEmployeelist(request):
 
 def managerEmployeerequest(request):
     return render(request, "manager/employeeRequest.html")
+
+
+def allEmployee(request):
+    e1= User.objects.filter()
+    return render(request,'EMSadmin/employeeList.html',{'e1':e1})
