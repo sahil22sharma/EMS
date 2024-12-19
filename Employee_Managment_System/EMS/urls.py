@@ -5,7 +5,7 @@ urlpatterns = [
 
     path('register/', views.register_emp, name='register'),
     path('login/', views.user_login, name='login'),
-    path('home/',views.home,name='home')
+    path('home/',views.home,name='home'),
     # path('',views.homepage,name="home"),
 
     # # Signup Routes
