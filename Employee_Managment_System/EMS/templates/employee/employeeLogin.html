@@ -14,13 +14,13 @@
 <body>
     <div class="wrapper">
         <header>Employee Login</header>
-        <form action="/testloginEmployee/" method="POST">
+        <form action="/login/" method="POST">
             {% csrf_token %}
             
             <div class="field email">
-                <label for="email">Email:</label>
+                <label for="username">Username:</label>
                 <div class="input-area">
-                    <input type="text" id="emailId" name="email" placeholder="Enter your email" required>
+                    <input type="text" id="emailId" name="username" placeholder="Enter your username" required>
                     <i class="icon fas fa-envelope"></i>
                     <i class="error error-icon fas fa-exclamation-circle"></i>
                 </div>

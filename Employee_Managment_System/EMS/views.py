@@ -638,34 +638,26 @@ def register_emp(request):
         # Additional fields for the Manager model
         fname = request.POST.get('fname')
         lname = request.POST.get('lname')
-        username = fname + lname
         phone = request.POST.get('contact')
         email = request.POST.get('email')
+        username = email
         gender = request.POST.get('gender')
         dob = request.POST.get('dob')
         address = request.POST.get('address')
         state = request.POST.get('state')
         qualification = request.POST.get('qualification')
+        password = request.POST.get('password')
         # image = request.FILES.get('image')  # Handling file uploads
         # resume = request.FILES.get('resume')  # Handling file uploads
-
-        # # Check if any field is empty
-        # if not username or not email or not password1 or not password2 or not fname or not lname:
-        #     messages.error(request, "All fields are required.")
-        #     return render(request, 'employee/employeeReg.html')
-
-        # # Check password match
-        # if password1 != password2:
-        #     messages.error(request, "Passwords do not match.")
-        #     return render(request, 'employee/employeeReg.html')
-        
         # Create the user
-        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email)
+        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password)
         user.save()
 
         # Create the Profile model with additional fields
         profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender,dob=dob,address=address,state=state,qualification=qualification)
-        profile.save()
+        r = profile.save()
+        if r:
+            return render(request, 'employee/employeeLogin.html') 
     return render(request, 'employee/employeeReg.html')    
     
 
@@ -682,7 +674,9 @@ def user_login(request):
         if user is not None:
             print('y')
             login(request, user)
-            return redirect('home')  # Redirect to home page or desired page
+            # return redirect('home')  # Redirect to home page or desired page
+            return redirect('home') 
+
         else:
             print('N')
             messages.error(request, 'Invalid username or password.')
@@ -699,9 +693,9 @@ def home(request):
         if role == 'admin':
             return render(request, 'EMS/indexDash.html')
         elif role == 'manager':
-            return render(request, 'EMS/indexDash.html')
+            return render(request, 'manager/managerDash.html')
         else:
-            return render(request, 'EMSadmin/indexDash.html')
+            return render(request, 'employee/employeeDash.html')
     return redirect('login')
 
 def employeerequest(request):
