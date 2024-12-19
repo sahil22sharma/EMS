@@ -1,0 +1,46 @@
+{% extends 'EMSadmin/base.html' %} {% block content %}
+{% load static %}
+
+<div class="dash-content">
+
+    <div class="activity">
+        <div class="title">
+            <i class="uil uil-clock-three"></i>
+            <span class="text">Employee Status</span>
+        </div>
+        <div class="menu-items">
+            <form action="">
+                <ul class="hnav-links">
+                    <li>
+                        <div class="input-field">
+                            <span class="dash-title">Manager Name</span>
+                            <select name="gender" required>
+                                <option disabled selected>Select Manager</option>
+                                <option>Lorem, ipsum.</option>
+                                <option>Lorem, ipsum.</option>
+                                <option>Lorem, ipsum.</option>
+                                <option>Others</option>
+                            </select>
+
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-field">
+
+                            <input type="date" name="dob" required>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-field">
+                            <input type="submit" class="submit-btn" value="Search">
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+
+        {% block employee %} {% endblock %}
+    </div>
+</div>
+
+{% endblock %}
