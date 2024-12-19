@@ -619,3 +619,7 @@ def employeelist(request):
 
 def employeerequest(request):
     return render(request, "EMSadmin/employeeRequest.html")
+
+def employeeStatus(request):
+    return render(request, "EMSadmin/employeeStatus.html")
+    

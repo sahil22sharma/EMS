@@ -29,5 +29,6 @@ urlpatterns = [
     path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
     path('adminDash/employeelist', views.employeelist,name='employeelist'),
     path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
+    path('adminDash/employeeStatus',views.employeeStatus,name='employeestatus')
 
 ]
