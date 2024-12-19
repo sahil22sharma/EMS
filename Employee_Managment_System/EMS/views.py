@@ -662,7 +662,7 @@ def register_emp(request):
     
 
 # Login view
-def user_login(request):
+def emp_login(request):
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -684,6 +684,110 @@ def user_login(request):
 
 # Example home view (to be redirected after login/registration)
 
+
+
+def register_admin(request):
+    if request.method == 'POST':
+        role = 'admin' 
+        # Additional fields for the Manager model
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        phone = request.POST.get('contact')
+        email = request.POST.get('email')
+        username = email
+        gender = request.POST.get('gender')
+        # dob = request.POST.get('dob')
+        # address = request.POST.get('address')
+        # state = request.POST.get('state')
+        # qualification = request.POST.get('qualification')
+        password = request.POST.get('password')
+        # image = request.FILES.get('image')  # Handling file uploads
+        # resume = request.FILES.get('resume')  # Handling file uploads
+        # Create the user
+        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password)
+        user.save()
+
+        # Create the Profile model with additional fields
+        profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender)
+        r = profile.save()
+        if r:
+            return render(request, 'EMSadmin/adminLogin.html') 
+    return render(request, 'EMSadmin/adminReg.html')    
+    
+
+# Login view
+def admin_login(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username , password)
+
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            print('y')
+            login(request, user)
+            # return redirect('home')  # Redirect to home page or desired page
+            return redirect('home') 
+
+        else:
+            print('N')
+            messages.error(request, 'Invalid username or password.')
+    return render(request, 'EMSadmin/adminLogin.html')
+
+
+
+def register_man(request):
+    if request.method == 'POST':
+        role = 'manager' 
+        # Additional fields for the Manager model
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        phone = request.POST.get('contact')
+        email = request.POST.get('email')
+        username = email
+        gender = request.POST.get('gender')
+        dob = request.POST.get('dob')
+        address = request.POST.get('address')
+        state = request.POST.get('state')
+        qualification = request.POST.get('qualification')
+        password = request.POST.get('password')
+        # image = request.FILES.get('image')  # Handling file uploads
+        # resume = request.FILES.get('resume')  # Handling file uploads
+        # Create the user
+        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password)
+        user.save()
+
+        # Create the Profile model with additional fields
+        profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender,dob=dob,address=address,state=state,qualification=qualification)
+        r = profile.save()
+        if r:
+            return render(request, 'manager/managerLogin.html') 
+    return render(request, 'manager/managerReg.html')    
+    
+
+# Login view
+def man_login(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username , password)
+
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            print('y')
+            login(request, user)
+            # return redirect('home')  # Redirect to home page or desired page
+            return redirect('home') 
+
+        else:
+            print('N')
+            messages.error(request, 'Invalid username or password.')
+    return render(request, 'manager/managerLogin.html')
+
 def index(request):
     return render(request, 'index.html')
     
@@ -691,7 +795,7 @@ def home(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         if role == 'admin':
-            return render(request, 'EMS/indexDash.html')
+            return render(request, 'EMSadmin/indexDash.html')
         elif role == 'manager':
             return render(request, 'manager/managerDash.html')
         else:
