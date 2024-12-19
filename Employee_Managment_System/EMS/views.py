@@ -619,3 +619,21 @@ def employeelist(request):
 
 def employeerequest(request):
     return render(request, "EMSadmin/employeeRequest.html")
+
+def baseEmployee(request):
+    return render(request, "employee/base.html")
+
+def employeeIndexPage(request):
+    return render(request,"employee/employeeDash.html")
+
+def baseManager(request):
+    return render(request, "manager/base.html")
+
+def managerIndexPage(request):
+    return render(request,"manager/managerDash.html")
+
+def managerEmployeelist(request):
+    return render(request, "manager/employeeList.html")
+
+def managerEmployeerequest(request):
+    return render(request, "manager/employeeRequest.html")

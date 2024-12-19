@@ -302,7 +302,7 @@ nav.close ~ .dashboard .top{
 .dash-content .boxes{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
 }
 .dash-content .boxes .box{
@@ -310,7 +310,7 @@ nav.close ~ .dashboard .top{
     flex-direction: column;
     align-items: center;
     border-radius: 12px;
-    width: calc(100% / 4 - 15px);
+    width: calc(100% / 3 - 15px);
     padding: 15px 20px;
     background-color: var(--box1-color);
     transition: var(--tran-05);
