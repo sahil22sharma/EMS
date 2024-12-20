@@ -650,14 +650,14 @@ def register_emp(request):
         state = request.POST.get('state')
         qualification = request.POST.get('qualification')
         password = request.POST.get('password')
-        # image = request.FILES.get('image')  # Handling file uploads
+        image = request.FILES.get('image')  # Handling file uploads
         # resume = request.FILES.get('resume')  # Handling file uploads
         # Create the user
         user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password,is_active = False)
         user.save()
 
         # Create the Profile model with additional fields
-        profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender,dob=dob,address=address,state=state,qualification=qualification)
+        profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender,dob=dob,address=address,state=state,qualification=qualification,image=image)
         r = profile.save()
         if r:
             return render(request, 'employee/employeeLogin.html') 
@@ -878,3 +878,20 @@ def all_logout(request):
     
     # Redirect to the login page or a different page after logout
     return render(request,'index.html')  # Replace with your login page name or URL
+
+def attendance(request):
+    return render(request, "EMSadmin/attendance.html")
+
+def employeestatus(request):
+    if request.user.is_authenticated:
+        role = request.user.profile.role
+        if role=='admin':
+            e1 = User.objects.all()  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request,'EMSadmin/employeeStatus.html',{'e1':e1})
+        elif role=='manager':
+            e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request,'manager/employeeStatus.html',{'e1':e1})
+    else:
+        return render(request,'index.html')
