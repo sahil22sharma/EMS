@@ -837,16 +837,20 @@ def managerEmployeerequest(request):
     return render(request, "manager/employeeRequest.html")
 
 
-def allEmployee(request):
+def employeelist(request):
     # e1 = User.objects.all()  # Fetch all User records
     # print(e1)  # Prints the queryset in the console (for debugging)
     
     # If you want to see more detailed information about each user:
-    e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
-    e1 = e1.select_related('profile')
-    return render(request,'EMSadmin/employeeList.html',{'e1':e1})
+    if request.user.is_authenticated:
+        e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+        e1 = e1.select_related('profile')
+        return render(request,'EMSadmin/employeeList.html',{'e1':e1})
+    else:
+        return render(request,'index.html')
 
-def managerpage(request):
+
+def managerlist(request):
     e1 = User.objects.filter(profile__role='manager')  # Fetch all User records
     e1 = e1.select_related('profile')
     return render(request,'EMSadmin/managerlist.html',{'e1':e1})
