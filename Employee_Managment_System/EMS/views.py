@@ -632,6 +632,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .models.profile import Profile
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+
 # Registration view
 def register_emp(request):
     if request.method == 'POST':
@@ -864,7 +866,15 @@ def managerlist(request):
 
 def all_logout(request):
     # Log out the user
+    now = datetime.now()
+    
+    # Print the date separately
+    print("Date:", now.date())  # This will print only the date
+    
+    # Print the time separately
+    print("Time:", now.strftime("%H:%M:%S"))  # This will print only the time in HH:MM:SS format
+    
     logout(request)
-
+    
     # Redirect to the login page or a different page after logout
     return render(request,'index.html')  # Replace with your login page name or URL
