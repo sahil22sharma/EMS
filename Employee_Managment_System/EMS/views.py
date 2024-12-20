@@ -773,22 +773,27 @@ def register_man(request):
 
 # Login view
 def man_login(request):
-
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        print(username , password)
-
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    print(username , password)
         # Authenticate the user
-        user = authenticate(request, username=username, password=password)
+    user = authenticate(request, username=username, password=password)
+
+    if user is not None:
         if user.is_active: 
-                print('y')
-                login(request, user)
-                return redirect('home') 
+            print('y')
+            login(request, user)
+            return redirect('home') 
         else:
-            print('User in active ')
-            messages.error(request, 'Invalid username or password.')
+            print('User is inactive')
+            messages.error(request, 'Your account is inactive. Please contact support.')
+            # return redirect('home')  # Redirect to home page or desired page
+    else:
+        print('User is inactive')
+        messages.error(request, 'Invalid username or password.')
     return render(request, 'manager/managerLogin.html')
+
+
 
 def index(request):
     return render(request, 'index.html')
@@ -839,3 +844,8 @@ def allEmployee(request):
     e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
     e1 = e1.select_related('profile')
     return render(request,'EMSadmin/employeeList.html',{'e1':e1})
+
+def managerpage(request):
+    e1 = User.objects.filter(profile__role='manager')  # Fetch all User records
+    e1 = e1.select_related('profile')
+    return render(request,'EMSadmin/managerlist.html',{'e1':e1})
