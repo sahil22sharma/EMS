@@ -354,6 +354,7 @@ nav.close ~ .dashboard .top{
     margin: 0 15px;
 }
 .activity-data .data-title{
+    border: 1px solid black;
     font-size: 20px;
     font-weight: 500;
     color: var(--text-color);
@@ -365,7 +366,6 @@ nav.close ~ .dashboard .top{
     white-space: nowrap;
     color: var(--text-color);
 }
-
 
 .hnav-links{
     display: flex;
@@ -388,7 +388,6 @@ nav.close ~ .dashboard .top{
 .hnav-links li:hover .link-name,.hnav-links li:hover i{
     color: white;
 }
-
 
 
 

@@ -650,7 +650,7 @@ def register_emp(request):
         # image = request.FILES.get('image')  # Handling file uploads
         # resume = request.FILES.get('resume')  # Handling file uploads
         # Create the user
-        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password)
+        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password,is_active = False)
         user.save()
 
         # Create the Profile model with additional fields
@@ -668,17 +668,21 @@ def emp_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         print(username , password)
-
         # Authenticate the user
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            print('y')
-            login(request, user)
+            if user.is_active: 
+                print('y')
+                login(request, user)
+                return redirect('home') 
+            else:
+                print('User is inactive')
+                messages.error(request, 'Your account is inactive. Please contact support.')
             # return redirect('home')  # Redirect to home page or desired page
-            return redirect('home') 
 
         else:
-            print('N')
+            print('User is inactive')
             messages.error(request, 'Invalid username or password.')
     return render(request, 'employee/employeeLogin.html')
 
@@ -756,7 +760,7 @@ def register_man(request):
         # image = request.FILES.get('image')  # Handling file uploads
         # resume = request.FILES.get('resume')  # Handling file uploads
         # Create the user
-        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password)
+        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password,is_active = False)
         user.save()
 
         # Create the Profile model with additional fields
@@ -777,14 +781,12 @@ def man_login(request):
 
         # Authenticate the user
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            print('y')
-            login(request, user)
-            # return redirect('home')  # Redirect to home page or desired page
-            return redirect('home') 
-
+        if user.is_active: 
+                print('y')
+                login(request, user)
+                return redirect('home') 
         else:
-            print('N')
+            print('User in active ')
             messages.error(request, 'Invalid username or password.')
     return render(request, 'manager/managerLogin.html')
 
@@ -800,6 +802,8 @@ def home(request):
             return render(request, 'manager/managerDash.html')
         else:
             return render(request, 'employee/employeeDash.html')
+        
+
     return redirect('login')
 
 def employeerequest(request):
@@ -828,5 +832,10 @@ def managerEmployeerequest(request):
 
 
 def allEmployee(request):
-    e1= User.objects.filter()
+    # e1 = User.objects.all()  # Fetch all User records
+    # print(e1)  # Prints the queryset in the console (for debugging)
+    
+    # If you want to see more detailed information about each user:
+    e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+    e1 = e1.select_related('profile')
     return render(request,'EMSadmin/employeeList.html',{'e1':e1})

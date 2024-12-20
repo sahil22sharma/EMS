@@ -4,57 +4,31 @@
 <div class="title">
     <span class="text">Employee List</span>
 </div>   
-<div class="activity-data">
-    <div class="data names">
-        <span class="data-title">Name</span>
-        <span class="data-list">Prem Shahi</span>
-        <span class="data-list">Deepa Chand</span>
-        <span class="data-list">Manisha Chand</span>
-        <span class="data-list">Pratima Shahi</span>
-        <span class="data-list">Man Shahi</span>
-        <span class="data-list">Ganesh Chand</span>
-        <span class="data-list">Bikash Chand</span>
-    </div>
-    <div class="data email">
-        <span class="data-title">Email</span>
-        <span class="data-list">premshahi@gmail.com</span>
-        <span class="data-list">deepachand@gmail.com</span>
-        <span class="data-list">prakashhai@gmail.com</span>
-        <span class="data-list">manishachand@gmail.com</span>
-        <span class="data-list">pratimashhai@gmail.com</span>
-        <span class="data-list">manshahi@gmail.com</span>
-        <span class="data-list">ganeshchand@gmail.com</span>
-    </div>
-    <div class="data joined">
-        <span class="data-title">Joined</span>
-        <span class="data-list">2022-02-12</span>
-        <span class="data-list">2022-02-12</span>
-        <span class="data-list">2022-02-13</span>
-        <span class="data-list">2022-02-13</span>
-        <span class="data-list">2022-02-14</span>
-        <span class="data-list">2022-02-14</span>
-        <span class="data-list">2022-02-15</span>
-    </div>
-    <div class="data type">
-        <span class="data-title">Type</span>
-        <span class="data-list">New</span>
-        <span class="data-list">Member</span>
-        <span class="data-list">Member</span>
-        <span class="data-list">New</span>
-        <span class="data-list">Member</span>
-        <span class="data-list">New</span>
-        <span class="data-list">Member</span>
-    </div>
-    <div class="data status">
-        <span class="data-title">Status</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-    </div>
-</div>
 
+{% if e1 %}
+<div class="activity-data">
+    <table class="table">
+        <thead>
+            <th class="data-title">Name</th>
+            <th class="data-title">Contact</th>
+            <th class="data-title">Email</th>
+            <th class="data-title">Qualification</th>
+            <th class="data-title">Date of Join</th>
+            <th class="data-title">Gender</th>
+            <th class="data-title">Action</th>
+        </thead>
+        {% for i in e1 %}
+        <tbody>
+            <td class="data-list">{{i.get_full_name}}</td>
+            <td class="data-list">{{i.profile.phone}}</td>
+            <td class="data-list">{{i.email}}</td>
+            <td class="data-list">{{i.profile.qualification}}</td>
+            <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td>
+            <td class="data-list">{{i.profile.gender}}</td>
+            <td class="data-list" style="padding-left: 2rem;" ><i class="uil uil-trash-alt del-btn" style="font-size: 1.22rem; "></i></td>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
 {% endblock %}
