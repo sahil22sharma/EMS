@@ -627,7 +627,7 @@ def adminlogin(request):
 
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate,logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models.profile import Profile
@@ -838,19 +838,33 @@ def managerEmployeerequest(request):
 
 
 def employeelist(request):
-    # e1 = User.objects.all()  # Fetch all User records
-    # print(e1)  # Prints the queryset in the console (for debugging)
-    
-    # If you want to see more detailed information about each user:
     if request.user.is_authenticated:
-        e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
-        e1 = e1.select_related('profile')
-        return render(request,'EMSadmin/employeeList.html',{'e1':e1})
+        role = request.user.profile.role
+        if role=='admin':
+            e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request,'EMSadmin/employeeList.html',{'e1':e1})
+        elif role=='manager':
+            e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request,'manager/employeeList.html',{'e1':e1})
     else:
         return render(request,'index.html')
 
 
 def managerlist(request):
-    e1 = User.objects.filter(profile__role='manager')  # Fetch all User records
-    e1 = e1.select_related('profile')
-    return render(request,'EMSadmin/managerlist.html',{'e1':e1})
+    if request.user.is_authenticated:
+        role = request.user.profile.role
+        if role=='admin':
+            e1 = User.objects.filter(profile__role='manager')  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request,'EMSadmin/managerlist.html',{'e1':e1})
+    else:
+        return render(request,'index.html')
+
+def all_logout(request):
+    # Log out the user
+    logout(request)
+
+    # Redirect to the login page or a different page after logout
+    return render(request,'index.html')  # Replace with your login page name or URL

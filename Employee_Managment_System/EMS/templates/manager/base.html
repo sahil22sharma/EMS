@@ -39,7 +39,7 @@
                         <i class="uil uil-user-exclamation"></i>
                         <span class="link-name">Manager</span>
                     </a></li>-->
-                <li><a href="{% url 'managerEmployeelist' %}">
+                <li><a href="{% url 'employeelist' %}">
                         <i class="uil uil-user"></i>
                         <span class="link-name">Employee</span>
                     </a></li>
@@ -70,7 +70,7 @@
             </ul>
 
             <ul class="logout-mode">
-                <li><a href="#">
+                <li><a href="{% url 'logout' %}">
                         <i class="uil uil-signout"></i>
                         <span class="link-name">Logout</span>
                     </a></li>

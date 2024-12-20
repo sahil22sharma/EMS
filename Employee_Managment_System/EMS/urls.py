@@ -25,6 +25,7 @@ urlpatterns = [
 
     #Common Routes
     path('home/',views.home,name='home'),
+    path('logout/',views.all_logout,name='logout'),
     # path('home/task'),
     # path('home/project'),
     # path('home/attendance'),
