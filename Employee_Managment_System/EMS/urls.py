@@ -8,8 +8,8 @@ urlpatterns = [
     path('register_admin/',views.register_admin,name='register_admin'),
     path('register_man/',views.register_man,name='register_man'),
     path('admin_login/', views.admin_login, name='admin_login'),
-    path('man_login',views.man_login,name='man_login'),
-    path('emp_login',views.emp_login,name='emp_login'),
+    path('man_login/',views.man_login,name='man_login'),
+    path('emp_login/',views.emp_login,name='emp_login'),
 
     path('home/',views.home,name='home'),
     
@@ -49,7 +49,7 @@ urlpatterns = [
     # path('testloginManager/',views.testloginManager,name='testloginManager'),
     path('adminDash/managerlist', views.managerlist,name='managerlist'),
     path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
-    path('adminDash/employeelist', views.employeelist,name='employeelist'),
+    path('adminDash/employeelist', views.allEmployee,name='employeelist'),
     path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
     path('adminDash/employeeStatus',views.employeeStatus,name='employeestatus'),
 
@@ -59,4 +59,5 @@ urlpatterns = [
     path('managerDash/Index', views.managerIndexPage,name='managerDash'),
     path('managerDash/employeelist', views.managerEmployeelist,name='managerEmployeelist'),
     path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),
+    # path('allEmployee/',views.allEmployee,)
 ]

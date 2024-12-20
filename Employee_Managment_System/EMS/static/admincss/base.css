@@ -21,6 +21,7 @@
     --box3-color: #E7D1FC;
     --box4-color: #edfcd1;
     --title-icon-color: #fff;
+    --delete:rgb(230, 5, 5);
 
     /* ====== Transition ====== */
     --tran-05: all 0.5s ease;
@@ -36,7 +37,7 @@ body {
 body.dark {
     --primary-color: #3A3B3C;
     /* --primary-color: #14a9d7; */
-
+    --delete:#CCC;
     --panel-color: #242526;
     --text-color: #CCC;
     --black-light-color: #CCC;
@@ -471,6 +472,27 @@ select {
 .dash-title{
     color: var(--black-light-color);
 }
+
+
+.activity-data table{
+    /* border: 1px solid red; */
+    text-align: left;
+    font-size: 1.02rem;
+    width: 100vw;
+}
+.activity-data table thead th,.activity-data table tbody td{
+    width: calc(100% / 7);
+    padding: 7px 1rem;
+    font-size: 1.1rem;
+    color: var(--black-light-color);
+}
+
+.activity-data table tbody .del-btn{
+    color: var(--delete);
+    cursor: pointer;
+}
+
+
 
 @media (max-width: 1000px) {
     nav {
