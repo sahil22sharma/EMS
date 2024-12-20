@@ -1,18 +1,41 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
 
     path('',views.index),
-    path('register_emp/', views.register_emp, name='register_emp'),
+    #Admin Routes
     path('register_admin/',views.register_admin,name='register_admin'),
-    path('register_man/',views.register_man,name='register_man'),
     path('admin_login/', views.admin_login, name='admin_login'),
+    #path('home/manager/list)
+    #path('home/manager/request)
+
+
+    #Manager Routes
+    path('register_man/',views.register_man,name='register_man'),
     path('man_login/',views.man_login,name='man_login'),
+
+
+
+    #Employee Routes
+    path('register_emp/', views.register_emp, name='register_emp'),
     path('emp_login/',views.emp_login,name='emp_login'),
 
+
+    #Common Routes
     path('home/',views.home,name='home'),
+    # path('home/task'),
+    # path('home/project'),
+    # path('home/attendance'),
+    # path('home/leave'),
+    # path('home/notices'),
+
+    # #Admin+Manager
+    path('home/employee/list',views.allEmployee,name='employeelist'),
+    # path('home/employee/request'),
     
+
     # path('',views.homepage,name="home"),
 
     # # Signup Routes
