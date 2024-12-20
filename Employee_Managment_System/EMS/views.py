@@ -631,6 +631,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models.profile import Profile
+from django.contrib.auth.decorators import login_required
 # Registration view
 def register_emp(request):
     if request.method == 'POST':
