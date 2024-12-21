@@ -101,7 +101,9 @@
             {% if user.profile.image %}
             <img src="{{ user.profile.image.url }}" alt="Profile Image" width="200">
             {% else %}
-            <p>No profile image uploaded.</p>
+            <h4>
+                {{user.get_full_name}}
+            </h4>
             {% endif %}
         </div>
 
