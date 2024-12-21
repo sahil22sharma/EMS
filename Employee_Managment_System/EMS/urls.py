@@ -12,6 +12,7 @@ urlpatterns = [
     path('home/manager/list',views.managerlist,name='managerlist'),
     path('home/manager/request',views.managerrequest,name='managerrequest'),
     path('manageractivation/',views.manageractivation,name='manageractivation'),
+    path('delete_man/<int:user_id>/', views.delete_man, name='delete_man'),
 
 
     #Manager Routes
@@ -38,7 +39,7 @@ urlpatterns = [
     path('home/employee/list',views.employeelist,name='employeelist'),
     path('home/employee/request',views.employeerequest,name='employeerequest'),
     path('assign_manager_and_activate/', views.assign_manager_and_activate, name='assign_manager_and_activate'),
-
+    path('delete_emp/<int:user_id>/', views.delete_emp, name='delete_emp'),
     
 
     # path('',views.homepage,name="home"),
@@ -88,6 +89,7 @@ urlpatterns = [
     path('managerDash/employeelist', views.managerEmployeelist,name='managerEmployeelist'),
     path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),
     # path('allEmployee/',views.allEmployee,)
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

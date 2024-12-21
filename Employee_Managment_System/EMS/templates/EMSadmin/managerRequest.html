@@ -37,8 +37,14 @@
                 <td class="data-list">{{ i.profile.qualification }}</td>
                 <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td>
                 <td class="data-list">{{ i.profile.gender }}</td>
-                <td class="data-list" style="padding-left: 2rem;">
-                    <i class="uil uil-trash-alt del-btn" style="font-size: 1.22rem;"></i>
+                 <!-- Form for Deleting User -->
+                 <td class="data-list" style="padding-left: 2rem;">
+                    <form action="{% url 'delete_man' i.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="del-btn" style="background: none; border: none; cursor: pointer;">
+                            <i class="uil uil-trash-alt" style="font-size: 1.22rem;"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}

@@ -1054,3 +1054,25 @@ def manageractivation(request):
 
     else:
         return HttpResponseBadRequest("Invalid request method.")
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+
+def delete_emp(request, user_id):
+    """Handle the deletion of a user."""
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            user = get_object_or_404(User, id=user_id)
+            user.delete()  # Delete the user
+            messages.success(request, f'User {user.username} has been deleted successfully.')
+        return redirect('employeelist')  # Redirect back to the employee list page (adjust if needed)
+    
+
+def delete_man(request, user_id):
+    """Handle the deletion of a user."""
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            user = get_object_or_404(User, id=user_id)
+            user.delete()  # Delete the user
+            messages.success(request, f'User {user.username} has been deleted successfully.')
+        return redirect('managerlist')  # Redirect back to the employee list page (adjust if needed)

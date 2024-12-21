@@ -1,33 +1,45 @@
-{% extends 'EMSadmin/employee.html' %} {% block employee %}
+{% extends 'EMSadmin/employee.html' %}
+{% block employee %}
 {% load static %}
 
 <div class="title">
     <span class="text">Employee List</span>
-</div>   
+</div>
 
 {% if e1 %}
 <div class="activity-data">
     <table class="table">
         <thead>
             <th class="data-title">Name</th>
-            <th class="data-title">Contact</th>
+            <th class="data-title">Manager</th>
             <th class="data-title">Email</th>
             <th class="data-title">Qualification</th>
             <th class="data-title">Date of Join</th>
             <th class="data-title">Gender</th>
             <th class="data-title">Action</th>
         </thead>
-        {% for i in e1 %}
         <tbody>
-            <td class="data-list">{{i.get_full_name}}</td>
-            <td class="data-list">{{i.profile.phone}}</td>
-            <td class="data-list">{{i.email}}</td>
-            <td class="data-list">{{i.profile.qualification}}</td>
-            <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td>
-            <td class="data-list">{{i.profile.gender}}</td>
-            <td class="data-list" style="padding-left: 2rem;" ><i class="uil uil-trash-alt del-btn" style="font-size: 1.22rem;"></i></td>
+            {% for i in e1 %}
+            <tr>
+                <td class="data-list">{{ i.get_full_name }}</td>
+                <td class="data-list">{{ i.profile.manager.get_full_name }}</td>
+                <td class="data-list">{{ i.email }}</td>
+                <td class="data-list">{{ i.profile.qualification }}</td>
+                <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td>
+                <td class="data-list">{{ i.profile.gender }}</td>
+
+                <!-- Form for Deleting User -->
+                <td class="data-list" style="padding-left: 2rem;">
+                    <form action="{% url 'delete_emp' i.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="del-btn" style="background: none; border: none; cursor: pointer;">
+                            <i class="uil uil-trash-alt" style="font-size: 1.22rem;"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
-        {% endfor %}
     </table>
 </div>
 {% endif %}
