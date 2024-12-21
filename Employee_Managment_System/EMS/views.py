@@ -839,9 +839,7 @@ def home(request):
             return render(request, 'manager/managerDash.html')
         else:
             return render(request, 'employee/employeeDash.html')
-        
-
-    return redirect('login')
+    return render(request, 'index.html')
 
 def employeerequest(request):
     return render(request, "EMSadmin/employeeRequest.html")
