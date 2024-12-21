@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.http import HttpResponseRedirect
 
-class tasks(models.Model):
+class Task(models.Model):
     id = models.AutoField(primary_key=True)
     employeeId = models.CharField(max_length=20)
     employeeName = models.CharField(max_length=20,null=True)

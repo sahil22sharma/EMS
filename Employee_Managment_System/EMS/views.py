@@ -3,8 +3,10 @@ from django.contrib.auth import login, authenticate,logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models.profile import Profile
-from django.contrib.auth.decorators import login_required
+from .models.tasks import Task
+from .models.project import Project
 from datetime import datetime
+from django.utils import timezone
 from django.http import HttpResponseBadRequest
 
 from .models.attendance import Attendance
@@ -279,7 +281,7 @@ def employeerequest(request):
         elif role == 'manager':
             e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
             e1 = e1.select_related('profile')
-            return render(request, 'EMSadmin/employeeRequest.html', {'e1': e1})
+            return render(request, 'manager/employeeRequest.html', {'e1': e1})
     else:
         return render(request, 'index.html')
 
@@ -452,8 +454,50 @@ def delete_man(request, user_id):
 def tasklist(request):
     return render(request, "manager/tasklist.html")
 
+def taskcreate(request):
+    return render(request, "manager/taskcreate.html")
+
 def projectlist(request):
     return render(request,'EMSadmin/projectlist.html')
 
 def projectcreate(request):
     return render(request,'EMSadmin/projectcreate.html')
+
+def create_task(request):
+    """Handle the task creation."""
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+        team_lead_id = request.POST['team_lead']
+        manager_id = request.POST['manager']
+        project_id = request.POST['project']
+        status = request.POST['status']
+        priority = request.POST['priority']
+        start_date = request.POST['start_date']
+        due_date = request.POST['due_date']
+        completion_date = request.POST.get('completion_date', None)  # Optional field
+
+        team_lead = User.objects.get(id=team_lead_id)
+        manager = User.objects.get(id=manager_id)
+        project = Project.objects.get(id=project_id)
+
+        task = Task(
+            title=title,
+            description=description,
+            team_lead=team_lead,
+            manager=manager,
+            project=project,
+            status=status,
+            priority=priority,
+            start_date=start_date,
+            due_date=due_date,
+            completion_date=completion_date,
+            created_at=timezone.now(),  # This will be set automatically by Django
+            updated_at=timezone.now(),  # This will be set automatically by Django
+        )
+        task.save()
+
+        messages.success(request, 'Task created successfully!')
+        return redirect('task_list')  # Replace with the actual URL for the task list page
+
+    return render(request, 'EMSadmin/create_task.html')
