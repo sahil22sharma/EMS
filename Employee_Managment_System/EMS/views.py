@@ -1076,3 +1076,6 @@ def delete_man(request, user_id):
             user.delete()  # Delete the user
             messages.success(request, f'User {user.username} has been deleted successfully.')
         return redirect('managerlist')  # Redirect back to the employee list page (adjust if needed)
+    
+def tasklist(request):
+    return render(request, "manager/tasklist.html")
