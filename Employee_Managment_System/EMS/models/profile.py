@@ -17,9 +17,10 @@ class Profile(models.Model):
     address = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=100, blank=True, null=True)
     qualification = models.CharField(max_length=200, blank=True, null=True)
-    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
-    # account=models.CharField(max_length=20,default="Deactive")
     manager = models.ForeignKey(User, related_name='managed_employees', on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    aadhar_card = models.FileField(upload_to='aadhar_cards/', blank=True, null=True)
+    cv = models.FileField(upload_to='cv_files/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} - {self.get_role_display()}'
