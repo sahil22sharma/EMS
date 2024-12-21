@@ -633,6 +633,8 @@ from django.contrib.auth.models import User
 from .models.profile import Profile
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.http import HttpResponseBadRequest
+
 from .models.attendance import Attendance
 
 
@@ -901,21 +903,6 @@ def employeerequest(request):
             e1 = User.objects.filter(profile__role='employee', is_active=False)  # Fetch all User records
             e1 = e1.select_related('profile')
             managers = User.objects.filter(profile__role='manager')  # Get managers for assignment
-            if request.method == 'POST':
-                employee_id = request.POST.get('employee_id')
-                manager_id = request.POST.get('manager')
-                activate_account = request.POST.get('activate_account') == 'True'
-                employee = User.objects.get(id=employee_id)
-                manager = User.objects.get(id=manager_id)
-                # Assign manager to the employee
-                employee.profile.manager = manager.profile
-                # Activate the employee account if the checkbox is checked
-                if activate_account:
-                    employee.is_active = True
-                employee.save()
-                messages.success(request, "Manager assigned and account activated successfully.")
-                return redirect('employee_request')  # Redirect to the employee request page
-                
             return render(request, 'EMSadmin/employeeRequest.html', {'e1': e1, 'managers': managers})
         elif role == 'manager':
             e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
@@ -945,7 +932,7 @@ def managerrequest(request):
         if role=='admin':
             e1 = User.objects.filter(profile__role='manager',is_active=False)  # Fetch all User records
             e1 = e1.select_related('profile')
-            return render(request,'EMSadmin/managerlist.html',{'e1':e1})
+            return render(request,'EMSadmin/managerRequest.html',{'e1':e1})
     else:
         return render(request,'index.html')
 
@@ -997,3 +984,73 @@ def all_attendance(request):
         return render(request, 'index.html')  #
     
 
+
+def assign_manager_and_activate(request):
+    if request.method == "POST":
+        employee_id = request.POST.get('employee_id')
+        manager_id = request.POST.get('manager')
+        activate_account = request.POST.get('activate_account') == 'True'  # Convert the checkbox value to boolean
+
+        # Debugging prints (optional, can be removed later)
+
+        try:
+            # Fetch employee and manager objects from the database
+            employee = User.objects.get(id=employee_id)
+            manager = User.objects.get(id=manager_id)
+
+            # Assign the manager to the employee's profile
+            employee.profile.manager = manager  # Assign the actual manager instance
+            employee.profile.save()
+
+            # Activate the employee account if the checkbox is checked
+            if activate_account:
+                employee.is_active = True  # Set the account to active
+                employee.save()  # Save the changes to the User model
+
+            # Show success message
+            messages.success(request, f"Manager assigned and account activated for {employee.get_full_name()}.")
+
+            # Redirect to the employee request page (or any other page you prefer)
+            return redirect('employeelist')
+
+        except User.DoesNotExist:
+            # Handle the case where the employee or manager is not found
+            messages.error(request, "User or Manager not found.")
+            return redirect('employeerequest')
+
+
+    else:
+        return HttpResponseBadRequest("Invalid request method.")
+
+
+def manageractivation(request):
+    if request.method == "POST":
+        manager_id = request.POST.get('employee_id')
+        activate_account = request.POST.get('activate_account') == 'True'  # Convert the checkbox value to boolean
+
+        # Debugging prints (optional, can be removed later)
+
+        try:
+            # Fetch employee and manager objects from the database
+            manager = User.objects.get(id=manager_id)
+
+            # Assign the manager to the employee's profile
+            # Activate the employee account if the checkbox is checked
+            if activate_account:
+                manager.is_active = True  # Set the account to active
+                manager.save()  # Save the changes to the User model
+
+            # Show success message
+            messages.success(request, f"Manager assigned and account activated for {manager.get_full_name()}.")
+
+            # Redirect to the employee request page (or any other page you prefer)
+            return redirect('managerlist')
+
+        except User.DoesNotExist:
+            # Handle the case where the employee or manager is not found
+            messages.error(request, "User or Manager not found.")
+            return redirect('managerrequest')
+
+
+    else:
+        return HttpResponseBadRequest("Invalid request method.")
