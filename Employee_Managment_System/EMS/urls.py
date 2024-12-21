@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin_login/', views.admin_login, name='admin_login'),
     path('home/manager/list',views.managerlist,name='managerlist'),
     path('home/manager/request',views.managerrequest,name='managerrequest'),
+    path('manageractivation/',views.manageractivation,name='manageractivation'),
 
 
     #Manager Routes
@@ -36,6 +37,8 @@ urlpatterns = [
     # #Admin+Manager
     path('home/employee/list',views.employeelist,name='employeelist'),
     path('home/employee/request',views.employeerequest,name='employeerequest'),
+    path('assign_manager_and_activate/', views.assign_manager_and_activate, name='assign_manager_and_activate'),
+
     
 
     # path('',views.homepage,name="home"),
