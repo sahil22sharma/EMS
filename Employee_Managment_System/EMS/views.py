@@ -652,14 +652,14 @@ def register_emp(request):
         state = request.POST.get('state')
         qualification = request.POST.get('qualification')
         password = request.POST.get('password')
-        # image = request.FILES.get('image')  # Handling file uploads
+        image = request.FILES.get('image')  # Handling file uploads
         # resume = request.FILES.get('resume')  # Handling file uploads
         # Create the user
         user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password,is_active = False)
         user.save()
 
         # Create the Profile model with additional fields
-        profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender,dob=dob,address=address,state=state,qualification=qualification)
+        profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender,dob=dob,address=address,state=state,qualification=qualification,image=image)
         r = profile.save()
         if r:
             return render(request, 'employee/employeeLogin.html') 

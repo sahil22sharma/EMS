@@ -98,7 +98,12 @@
                 <input type="text" placeholder="Search here...">
             </div> -->
 
-            <img src="images/profile.jpg" alt="">
+            <!-- <img src="images/profile.jpg" alt=""> -->
+            {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" alt="Profile Image" width="200">
+            {% else %}
+            <p>No profile image uploaded.</p>
+            {% endif %}
         </div>
 
         <div>

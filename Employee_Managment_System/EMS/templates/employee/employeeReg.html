@@ -20,7 +20,7 @@
     <div class="container">
         <header>Employee Registration</header>
 
-        <form action="/register_emp/" method="post">
+        <form action="/register_emp/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form first">
                 <div class="details personal">

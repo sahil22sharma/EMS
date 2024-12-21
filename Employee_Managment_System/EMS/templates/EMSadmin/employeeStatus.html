@@ -2,7 +2,6 @@
 {% load static %}
 
 <div class="dash-content">
-
     <div class="activity">
         <div class="title">
             <i class="uil uil-clock-three"></i>
@@ -15,11 +14,12 @@
                         <div class="input-field">
                             <span class="dash-title">Manager Name</span>
                             <select name="gender" required>
-                                <option disabled selected>Select Manager</option>
-                                <option>Lorem, ipsum.</option>
-                                <option>Lorem, ipsum.</option>
-                                <option>Lorem, ipsum.</option>
-                                <option>Others</option>
+                                <option disabled selected>Select Employee</option>
+                                {% if e1 %}
+                                {% for i in e1 %}
+                                <option>{{i.get_full_name}}</option>
+                                {% endfor %}
+                                {% endif %}
                             </select>
 
                         </div>
@@ -38,7 +38,6 @@
                 </ul>
             </form>
         </div>
-
         {% block employee %} {% endblock %}
     </div>
 </div>
