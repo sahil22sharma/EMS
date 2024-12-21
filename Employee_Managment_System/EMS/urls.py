@@ -27,13 +27,9 @@ urlpatterns = [
     #Common Routes
     path('home/',views.home,name='home'),
     path('logout/',views.all_logout,name='logout'),
-    path('home/attendance',views.attendance,name='attendance'),
+    path('home/attendance',views.all_attendance,name='all_attendance'),
     # path('home/task'),
     # path('home/project'),
-<<<<<<< HEAD
-    path('home/attendance',views.all_attendance,name='all_attendance'),
-=======
->>>>>>> b9e2b9fc3d6cd759a73dcfaf2521640ed6594a74
     # path('home/leave'),
     # path('home/notices'),
 
@@ -79,13 +75,8 @@ urlpatterns = [
     # path('adminDash/managerlist', views.managerpage,name='managerlist'),
     # path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
     # path('adminDash/employeelist', views.allEmployee,name='employeelist'),
-<<<<<<< HEAD
     # path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
-    # path('adminDash/employeeStatus',views.employeeStatus,name='employeestatus'),
-=======
-    path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
-    path('adminDash/employeeStatus',views.employeestatus,name='employeestatus'),
->>>>>>> b9e2b9fc3d6cd759a73dcfaf2521640ed6594a74
+    # path('adminDash/employeeStatus',views.employeestatus,name='employeestatus'),
 
     path('employeeDash/',views.baseEmployee),
     path('employeeDash/Index', views.employeeIndexPage,name='employeeDash'),
