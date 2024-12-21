@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from .models.profile import Profile
 from .models.tasks import Task
-from .models.project import Project
+# from .models.project import Project
 from .models.projectmodel import Project
 from .models.taskmodel import Task
 from django.contrib.auth.decorators import login_required
@@ -481,7 +481,6 @@ def projectcreate(request):
     project.save()   
     return render(request,'EMSadmin/projectcreate.html')
 
-<<<<<<< HEAD
 def create_task(request):
     """Handle the task creation."""
     if request.method == 'POST':
@@ -520,9 +519,7 @@ def create_task(request):
         return redirect('task_list')  # Replace with the actual URL for the task list page
 
     return render(request, 'EMSadmin/create_task.html')
-=======
 
 
 
 
->>>>>>> c0fb1626b94455c7e1914736144fe3716830d8a4
