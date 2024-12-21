@@ -19,7 +19,8 @@ class Profile(models.Model):
     qualification = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     # account=models.CharField(max_length=20,default="Deactive")
-    
+    manager = models.ForeignKey(User, related_name='managed_employees', on_delete=models.SET_NULL, null=True, blank=True)
+
     def __str__(self):
         return f'{self.user.username} - {self.get_role_display()}'
 

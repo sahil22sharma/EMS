@@ -633,6 +633,8 @@ from django.contrib.auth.models import User
 from .models.profile import Profile
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from .models.attendance import Attendance
+
 
 # Registration view
 def register_emp(request):
@@ -736,6 +738,27 @@ def admin_login(request):
             print('y')
             login(request, user)
             # return redirect('home')  # Redirect to home page or desired page
+            today = datetime.today().date()
+
+            # Check if the user has any attendance record for today
+            attendance = Attendance.objects.filter(user=user, date=today).first()
+
+            if not attendance:
+                # If no record exists for today, create a new one
+                Attendance.objects.create(
+                    user=user,
+                    date=today,
+                    loginTime=datetime.now().strftime('%H:%M:%S'),
+                    status='Present'
+                )
+            else:
+                # If attendance exists, check if logout time is missing
+                if not attendance.logoutTime:
+                    attendance.logoutTime = datetime.now().strftime('%H:%M:%S')  # Set logout time
+                    attendance.status = 'Present'
+                    attendance.save()
+            
+
             return redirect('home') 
 
         else:
@@ -804,8 +827,14 @@ def index(request):
 def home(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
+        e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+        e1 = e1.select_related('profile')
+        employee_count = e1.count()  
+        e1 = User.objects.filter(profile__role='manager')  # Fetch all User records
+        e1 = e1.select_related('profile')
+        manager_count = e1.count()
         if role == 'admin':
-            return render(request, 'EMSadmin/indexDash.html')
+            return render(request, 'EMSadmin/indexDash.html',{'employee_count':employee_count, 'manager_count':manager_count})
         elif role == 'manager':
             return render(request, 'manager/managerDash.html')
         else:
@@ -843,7 +872,7 @@ def employeelist(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         if role=='admin':
-            e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+            e1 = User.objects.filter(profile__role='employee',is_active=True)  # Fetch all User records
             e1 = e1.select_related('profile')
             return render(request,'EMSadmin/employeeList.html',{'e1':e1})
         elif role=='manager':
@@ -853,12 +882,70 @@ def employeelist(request):
     else:
         return render(request,'index.html')
 
+# def employeerequest(request):
+#     if request.user.is_authenticated:
+#         role = request.user.profile.role
+#         if role=='admin':
+#             e1 = User.objects.filter(profile__role='employee',is_active=False)  # Fetch all User records
+#             e1 = e1.select_related('profile')
+#             return render(request,'EMSadmin/employeeRequest.html',{'e1':e1})
+#         elif role=='manager':
+#             e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+#             e1 = e1.select_related('profile')
+#             return render(request,'EMSadmin/employeeRequest.html',{'e1':e1})
+#     else:
+#         return render(request,'index.html')
+    
+def employeerequest(request):
+    if request.user.is_authenticated:
+        role = request.user.profile.role
+        if role == 'admin':
+            e1 = User.objects.filter(profile__role='employee', is_active=False)  # Fetch all User records
+            e1 = e1.select_related('profile')
+            managers = User.objects.filter(profile__role='manager')  # Get managers for assignment
+            if request.method == 'POST':
+                employee_id = request.POST.get('employee_id')
+                manager_id = request.POST.get('manager')
+                activate_account = request.POST.get('activate_account') == 'True'
+                employee = User.objects.get(id=employee_id)
+                manager = User.objects.get(id=manager_id)
+                # Assign manager to the employee
+                employee.profile.manager = manager.profile
+                # Activate the employee account if the checkbox is checked
+                if activate_account:
+                    employee.is_active = True
+                employee.save()
+                messages.success(request, "Manager assigned and account activated successfully.")
+                return redirect('employee_request')  # Redirect to the employee request page
+                
+            return render(request, 'EMSadmin/employeeRequest.html', {'e1': e1, 'managers': managers})
+        elif role == 'manager':
+            e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request, 'EMSadmin/employeeRequest.html', {'e1': e1})
+    else:
+        return render(request, 'index.html')
+
+
+
+
 
 def managerlist(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         if role=='admin':
-            e1 = User.objects.filter(profile__role='manager')  # Fetch all User records
+            e1 = User.objects.filter(profile__role='manager',is_active=True)  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request,'EMSadmin/managerlist.html',{'e1':e1})
+    else:
+        return render(request,'index.html')
+    
+    
+def managerrequest(request):
+    if request.user.is_authenticated:
+        role = request.user.profile.role
+        if role=='admin':
+            e1 = User.objects.filter(profile__role='manager',is_active=False)  # Fetch all User records
             e1 = e1.select_related('profile')
             return render(request,'EMSadmin/managerlist.html',{'e1':e1})
     else:
@@ -867,31 +954,48 @@ def managerlist(request):
 def all_logout(request):
     # Log out the user
     now = datetime.now()
-    
-    # Print the date separately
-    print("Date:", now.date())  # This will print only the date
-    
-    # Print the time separately
-    print("Time:", now.strftime("%H:%M:%S"))  # This will print only the time in HH:MM:SS format
-    
+        
+        # Print the date and time separately
+    print("Date:", now.date())  # Prints only the date (YYYY-MM-DD)
+    print("Time:", now.strftime("%H:%M:%S"))  # Prints only the time (HH:MM:SS)
+
+        # Update the user's attendance record with the logout time
+    today = now.date()  # Current date
+    try:
+            # Fetch the attendance record for today
+        attendance = Attendance.objects.get(user=request.user, date=today)
+            
+        # Set the logout time
+        attendance.logoutTime = now.strftime("%H:%M:%S")
+        attendance.save()  # Save the logout time in the record
+            
+        print(f"Logout time for {request.user.username}: {attendance.logoutTime}")
+    except Attendance.DoesNotExist:
+            # If there's no attendance record for today, you could log this, but no need to create one
+        print("No attendance record found for today.")
     logout(request)
     
     # Redirect to the login page or a different page after logout
     return render(request,'index.html')  # Replace with your login page name or URL
 
-def attendance(request):
-    return render(request, "EMSadmin/attendance.html")
-
-def employeestatus(request):
+    
+def all_attendance(request):
     if request.user.is_authenticated:
-        role = request.user.profile.role
-        if role=='admin':
-            e1 = User.objects.all()  # Fetch all User records
-            e1 = e1.select_related('profile')
-            return render(request,'EMSadmin/employeeStatus.html',{'e1':e1})
-        elif role=='manager':
-            e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
-            e1 = e1.select_related('profile')
-            return render(request,'manager/employeeStatus.html',{'e1':e1})
+        role = request.user.profile.role  # Assuming there's a role field in User profile
+        
+        if role == 'admin' or role == 'manager':  # Only allow admin/manager to view all attendance data
+            attendance_data = Attendance.objects.all()  # Fetch all attendance records
+            
+            # Print attendance data for debugging
+            for attendance in attendance_data:
+                print(f"User: {attendance.user.get_full_name()}, Date: {attendance.date}, Login Time: {attendance.loginTime}, Logout Time: {attendance.logoutTime}, Status: {attendance.status}")
+            
+            return render(request, 'EMSadmin/attendance.html', {'e1': attendance_data})
+        
+        else:
+            return render(request, 'index.html')  # If the user doesn't have proper permissions
+    
     else:
-        return render(request,'index.html')
+        return render(request, 'index.html')  #
+    
+

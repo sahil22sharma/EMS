@@ -1,40 +1,127 @@
-{% extends 'EMSadmin/employee.html' %} {% block employee %}
+{% extends 'EMSadmin/employee.html' %}
+{% block employee %}
 {% load static %}
 
 <div class="title">
     <span class="text">Employee Request</span>
-</div>   
-<div class="activity-data">
-    <div class="data names">
-        <span class="data-title">Name</span>
-        <span class="data-list">Prem Shahi</span>
-        <span class="data-list">Deepa Chand</span>
-        <span class="data-list">Manisha Chand</span>
-    </div>
-    <div class="data email">
-        <span class="data-title">Email</span>
-        <span class="data-list">premshahi@gmail.com</span>
-        <span class="data-list">deepachand@gmail.com</span>
-        <span class="data-list">prakashhai@gmail.com</span>
-    </div>
-    <div class="data joined">
-        <span class="data-title">Joined</span>
-        <span class="data-list">2022-02-12</span>
-        <span class="data-list">2022-02-12</span>
-        <span class="data-list">2022-02-13</span>
-    </div>
-    <div class="data type">
-        <span class="data-title">Type</span>
-        <span class="data-list">New</span>
-        <span class="data-list">Member</span>
-        <span class="data-list">Member</span>
-    </div>
-    <div class="data status">
-        <span class="data-title">Status</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-        <span class="data-list">Liked</span>
-    </div>
 </div>
 
+{% if e1 %}
+<div class="activity-data">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="data-title">Name</th>
+                <th class="data-title">Contact</th>
+                <th class="data-title">Email</th>
+                <th class="data-title">Qualification</th>
+                <th class="data-title">Date of Join</th>
+                <th class="data-title">Gender</th>
+                <th class="data-title">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in e1 %}
+            <tr>
+                <td class="data-list">
+                    <a href="javascript:void(0);" class="employee-name" data-id="{{ i.id }}"
+                        data-name="{{ i.get_full_name }}" data-phone="{{ i.profile.phone }}"
+                        data-email="{{ i.email }}" data-qualification="{{ i.profile.qualification }}"
+                        data-join-date="{{ i.date_joined|date:'Y-m-d'}}" data-gender="{{ i.profile.gender }}"
+                        data-address="{{i.profile.address}}" data-dob="{{i.profile.dob}}">
+                        {{ i.get_full_name }}
+                    </a>
+                </td>
+                <td class="data-list">{{ i.profile.phone }}</td>
+                <td class="data-list">{{ i.email }}</td>
+                <td class="data-list">{{ i.profile.qualification }}</td>
+                <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td>
+                <td class="data-list">{{ i.profile.gender }}</td>
+                <td class="data-list" style="padding-left: 2rem;">
+                    <i class="uil uil-trash-alt del-btn" style="font-size: 1.22rem;"></i>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal for Assigning Manager & Activating Account -->
+    <div class="detail-model" id="assignManagerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Assign Manager & Activate Account</h2>
+                <span class="modal-close" id="closeModal" style="cursor: pointer;">&times;</span>
+            </div>
+            <form id="assignManagerForm" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="employee_id" id="employee_id">
+
+                <div class="modal-body">
+                    <div class="employee-details">
+                        <h3>Employee Details</h3>
+                        <p><strong>Name: </strong><span id="emp_name"></span></p>
+                        <p><strong>Contact: </strong><span id="emp_contact"></span></p>
+                        <p><strong>Email: </strong><span id="emp_email"></span></p>
+                        <p><strong>Qualification: </strong><span id="emp_qualification"></span></p>
+                        <p><strong>Date of Join: </strong><span id="emp_doj"></span></p>
+                        <p><strong>Gender: </strong><span id="emp_gender"></span></p>
+                        <p><strong>Address: </strong><span id="emp_address"></span></p>
+                        <p><strong>Date of Birth: </strong><span id="emp_dob"></span></p>
+                    </div>
+
+                    <div class="input-field">
+                        <label for="manager">Select Manager:</label>
+                        <select name="manager" id="manager" required>
+                            {% for manager in managers %}
+                            <option value="{{ manager.id }}">{{ manager.get_full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="input-field" style="display: flex; align-items: center; gap: 1rem;">
+                        <label for="activate_account">Activate Account:</label>
+                        <input type="checkbox" name="activate_account" id="activate_account" value="True">
+                        <label for="activate_account">Yes</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="submit" class="submit-btn" value="Assign Manager & Activate">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endif %}
+
+{% block extra_js %}
+<script>
+    // Open the modal and fill it with specific user data
+    document.querySelectorAll('.employee-name').forEach(item => {
+        item.addEventListener('click', function () {
+            // Set user data in the modal
+            document.getElementById('emp_name').textContent = this.getAttribute('data-name');
+            document.getElementById('emp_contact').textContent = this.getAttribute('data-phone');
+            document.getElementById('emp_email').textContent = this.getAttribute('data-email');
+            document.getElementById('emp_qualification').textContent = this.getAttribute('data-qualification');
+            document.getElementById('emp_doj').textContent = this.getAttribute('data-join-date');
+            document.getElementById('emp_gender').textContent = this.getAttribute('data-gender');
+            document.getElementById('emp_address').textContent = this.getAttribute('data-address');
+            document.getElementById('emp_dob').textContent = this.getAttribute('data-dob');
+
+            // Set the employee ID for the form
+            document.getElementById('employee_id').value = this.getAttribute('data-id');
+
+            // Show the modal
+            document.getElementById('assignManagerModal').style.display = 'flex';
+        });
+    });
+
+    // Close the modal
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('assignManagerModal').style.display = 'none';
+    });
+</script>
+{% endblock %}
 {% endblock %}
