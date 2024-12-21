@@ -1,0 +1,44 @@
+{% extends 'EMSadmin/project.html' %}
+{% block project %}
+{% load static %}
+
+
+<form action="/create_project/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="modal-body">
+        <div class="input-field">
+            <label for="client_name">Client Name</label>
+            <input type="text" name="client_name" id="client_name" placeholder="Enter client name" required>
+        </div>
+        <div class="input-field">
+            <label for="project_name">Project Name</label>
+            <input type="text" name="project_name" id="project_name" placeholder="Enter project name" required>
+        </div>
+        <div class="input-field">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" placeholder="Enter project description" required></textarea>
+        </div>
+        <div class="input-field">
+            <label for="manager">Assign Manager</label>
+            <select name="manager" id="manager" required>
+                <option value="" disabled selected>Select Manager</option>
+                <!-- Managers will be populated dynamically -->
+                <option value="manager_1">Manager 1</option>
+                <option value="manager_2">Manager 2</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <label for="start_date">Start Date</label>
+            <input type="date" name="start_date" id="start_date" required>
+        </div>
+        <div class="input-field">
+            <label for="deadline_date">Deadline Date</label>
+            <input type="date" name="deadline_date" id="deadline_date" required>
+        </div>
+        <div class="input-field">
+            <button type="submit" class="submit-btn" >Create Project</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
