@@ -87,7 +87,7 @@ urlpatterns = [
     path('managerDash/',views.baseManager),
     path('managerDash/Index', views.managerIndexPage,name='managerDash'),
     path('managerDash/employeelist', views.managerEmployeelist,name='managerEmployeelist'),
-    path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),
+    path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),     
     # path('allEmployee/',views.allEmployee,)
     
 ]
