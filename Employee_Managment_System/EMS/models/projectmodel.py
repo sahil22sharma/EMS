@@ -9,7 +9,4 @@ class Project(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     completion_date = models.DateTimeField(null=True, blank=True)
 
-    def __str__(self):
-        return self.name
-
     

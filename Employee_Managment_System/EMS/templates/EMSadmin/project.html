@@ -1,4 +1,4 @@
-{% extends 'manager/base.html' %} {% block content %}
+{% extends 'EMSadmin/base.html' %} {% block content %}
 {% load static %}
 
 <div class="dash-content">
@@ -6,28 +6,28 @@
     <div class="activity">
         <div class="title">
             <i class="uil uil-clock-three"></i>
-            <span class="text">Task</span>
+            <span class="text">Project</span>
         </div>
         <div class="menu-items">
             <ul class="hnav-links">
                 <li>
-                    <a href="{% url 'employeelist' %}">
+                    <a href="{% url 'projectlist' %}">
                         <!-- <i class="uil uil-chart"></i> -->
                         <i class="uil uil-clipboard"></i>
                         <span class="link-name">List</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'employeerequest' %}">
+                    <a href="{% url 'projectcreate' %}">
                         <!-- <i class="uil uil-chart"></i> -->
                         <i class="uil uil-clipboard"></i>
-                        <span class="link-name">Request</span>
+                        <span class="link-name">Create</span>
                     </a>
                 </li>
             </ul>
         </div>
         
-       {% block manager %} {% endblock %}
+       {% block project %} {% endblock %}
     </div>
 </div>
 

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from models.projectmodel import Project
+from .projectmodel import Project
 
 
 class Task(models.Model):

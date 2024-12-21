@@ -552,6 +552,12 @@ select {
     display: flex;
 }
 
+
+/* project css */
+
+
+
+
 @media (max-width: 1000px) {
     nav {
         width: 73px;
