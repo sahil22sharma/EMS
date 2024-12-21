@@ -9,7 +9,7 @@ urlpatterns = [
     path('register_admin/',views.register_admin,name='register_admin'),
     path('admin_login/', views.admin_login, name='admin_login'),
     path('home/manager/list',views.managerlist,name='managerlist'),
-    #path('home/manager/request)
+    path('home/manager/request',views.managerrequest,name='managerrequest'),
 
 
     #Manager Routes
@@ -28,13 +28,13 @@ urlpatterns = [
     path('logout/',views.all_logout,name='logout'),
     # path('home/task'),
     # path('home/project'),
-    # path('home/attendance'),
+    path('home/attendance',views.all_attendance,name='all_attendance'),
     # path('home/leave'),
     # path('home/notices'),
 
     # #Admin+Manager
     path('home/employee/list',views.employeelist,name='employeelist'),
-    # path('home/employee/request'),
+    path('home/employee/request',views.employeerequest,name='employeerequest'),
     
 
     # path('',views.homepage,name="home"),
@@ -67,15 +67,15 @@ urlpatterns = [
     # path('testlogin/',views.testlogin,name='testlogin'),
     path('adminDash/',views.base),
     path('adminDash/Index', views.adminIndexPage,name='adminDash'),
-    path('adminDash/manager', views.managerRequest,name='managerRequest'),
+    # path('adminDash/manager', views.managerRequest,name='managerRequest'),
     # path('testlogin/',views.testlogin,name='testlogin'),
     # path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
     # path('testloginManager/',views.testloginManager,name='testloginManager'),
     # path('adminDash/managerlist', views.managerpage,name='managerlist'),
-    path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
+    # path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
     # path('adminDash/employeelist', views.allEmployee,name='employeelist'),
-    path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
-    path('adminDash/employeeStatus',views.employeeStatus,name='employeestatus'),
+    # path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
+    # path('adminDash/employeeStatus',views.employeeStatus,name='employeestatus'),
 
     path('employeeDash/',views.baseEmployee),
     path('employeeDash/Index', views.employeeIndexPage,name='employeeDash'),
