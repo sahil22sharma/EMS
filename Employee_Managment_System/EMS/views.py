@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate,logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.db import models
 from .models.profile import Profile
+from .models.projectmodel import Project
+from .models.taskmodel import Task
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.http import HttpResponseBadRequest
@@ -456,4 +459,23 @@ def projectlist(request):
     return render(request,'EMSadmin/projectlist.html')
 
 def projectcreate(request):
+    if request.method == 'POST':
+        client=request.POST.get('client_name')
+        name = request.POST.get('project_name')
+        description = request.POST.get('description')
+        start_date=request.POST.get('start_date')
+        completion_date=request.POST.get('deadline_date')
+        manager=request.POST.get('manager')
+        role = request.user.profile.role
+        if role=='admin':
+            e1 = User.objects.filter(profile__role='manager',is_active=True)  # Fetch all User records
+            e1 = e1.select_related('profile')
+            return render(request,'EMSadmin/projectcreate.html')
+    project=Project.objects.create(client=client,name=name,description=description,manager=manager,start_date=start_date,completion_date=completion_date)
+    project.save()   
     return render(request,'EMSadmin/projectcreate.html')
+
+
+
+
+
