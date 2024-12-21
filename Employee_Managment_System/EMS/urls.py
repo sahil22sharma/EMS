@@ -31,7 +31,8 @@ urlpatterns = [
     path('logout/',views.all_logout,name='logout'),
     path('home/attendance',views.all_attendance,name='all_attendance'),
     # path('home/task'),
-    # path('home/project'),
+    path('home/project/list',views.projectlist,name='projectlist'),
+    path('home/project/create',views.projectcreate,name='projectcreate'),
     # path('home/leave'),
     # path('home/notices'),
 
@@ -45,12 +46,7 @@ urlpatterns = [
     # path('',views.homepage,name="home"),
 
     # # Signup Routes
-    path('adminReg/',views.adminReg, name='adminReg'),
-    path('adminlogin/',views.adminlogin, name='adminlogin'),
-    path('employeeReg/',views.employeeRegistration, name='employeeReg'),
-    path('employeeLogin/',views.employeeLogin, name='employeeLogin'),
-    path('managerReg/',views.managerRegistration, name='managerReg'),
-    path('managerLogin/',views.managerLogin, name='managerLogin'),
+ 
     # path('saveAdmin/',views.saveAdmin,name='saveAdmin'),
     # path('saveManager/',views.saveManager,name='saveManager'),
     # path('saveEmployee/',views.saveEmployee,name='saveEmployee'),
@@ -70,8 +66,8 @@ urlpatterns = [
     # path('adminDash/employeelist', views.employeelist,name='employeelist'),
     # path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
     # path('testlogin/',views.testlogin,name='testlogin'),
-    path('adminDash/',views.base),
-    path('adminDash/Index', views.adminIndexPage,name='adminDash'),
+    # path('adminDash/',views.base),
+    # path('adminDash/Index', views.adminIndexPage,name='adminDash'),
     # path('adminDash/manager', views.managerRequest,name='managerRequest'),
     # path('testlogin/',views.testlogin,name='testlogin'),
     # path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
@@ -82,12 +78,12 @@ urlpatterns = [
     # path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
     # path('adminDash/employeeStatus',views.employeestatus,name='employeestatus'),
 
-    path('employeeDash/',views.baseEmployee),
-    path('employeeDash/Index', views.employeeIndexPage,name='employeeDash'),
-    path('managerDash/',views.baseManager),
-    path('managerDash/Index', views.managerIndexPage,name='managerDash'),
-    path('managerDash/employeelist', views.managerEmployeelist,name='managerEmployeelist'),
-    path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),
+    # path('employeeDash/',views.baseEmployee),
+    # path('employeeDash/Index', views.employeeIndexPage,name='employeeDash'),
+    # path('managerDash/',views.baseManager),
+    # path('managerDash/Index', views.managerIndexPage,name='managerDash'),
+    # path('managerDash/employeelist', views.managerEmployeelist,name='managerEmployeelist'),
+    # path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),
     # path('allEmployee/',views.allEmployee,)
     
 ]
