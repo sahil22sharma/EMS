@@ -26,7 +26,7 @@ urlpatterns = [
     #Employee Routes
     path('register_emp/', views.register_emp, name='register_emp'),
     path('emp_login/',views.emp_login,name='emp_login'),
-    # path('home/task/status',views.status,name='status'),
+    path('home/task/status',views.taskstatus,name='taskstatus'),
 
     #Common Routes
     path('home/',views.home,name='home'),

@@ -507,6 +507,7 @@ def tasklist(request):
                 taskl = Task.objects.filter(manager=request.user)
                 return render(request, "manager/tasklist.html",{'taskl':taskl})
             elif role == 'employee':
+
                 taskl = Task.objects.filter(employee=request.user)
                 return render(request,'employee/tasklist.html',{'taskl':taskl})
 
@@ -606,3 +607,44 @@ def projectcreate(request):
 
 def status(request):
     return render(request,'employee/taskstatus.html')
+
+
+def taskstatus(request):
+    if request.method == 'POST':
+        # Get the task ID and the selected status from the form
+        task_id = request.POST.get('employee_id')
+        status = request.POST.get('status')
+        # print(status)
+        # Ensure task ID and status are provided
+        if task_id and status:
+            try:
+                # Get the task from the database
+                task = Task.objects.get(id=task_id)
+
+                # Update the status of the task
+                task.status = status
+
+                if status == 'in_progress':
+                # Set the start_at field to the current date
+                    task.start_at = timezone.now().date()
+
+                # Save the changes to the task
+                task.save()
+
+                # Optionally, you can add a message to indicate success
+                messages.success(request, "Task status updated and start date set successfully.")
+
+                # Redirect to the task list page (or wherever you want to redirect after saving)
+                return redirect('tasklist')  # Assuming you have a URL pattern named 'task_list'
+
+            except Task.DoesNotExist:
+                # Handle the case where the task does not exist
+                messages.error(request, "Task not found.")
+                return redirect('tasklist')  # Or any other page
+        else:
+            # Handle the case where data is incomplete
+            messages.error(request, "Please provide all the required fields.")
+            return redirect('tasklist')  # Or any other page
+    else:
+        # If the request method is not POST, redirect to the task list page
+        return redirect('tasklist')  # Or any other page

@@ -1,7 +1,7 @@
-{% extends 'employee/task.html' %}
-{% block task %}
+{% extends 'employee/base.html' %} {% block content %}
 {% load static %}
 
+<div class="dash-content">
 <div class="title">
     <span class="text">Task List</span>
 </div>
@@ -10,32 +10,102 @@
 <div class="activity-data">
     <table class="table">
         <thead>
-            <th class="data-title">Project</th>
-            <th class="data-title">Title</th>
-            <th class="data-title">Description</th>
-            <th class="data-title">Due Date</th>
-            <th class="data-title">Employee</th>
-            <th class="data-title">Status</th>
-          
+            <tr>
+                <th class="data-title">Project</th>
+                <th class="data-title">Title</th>
+                <th class="data-title">Description</th>
+                <th class="data-title">Due Date</th>
+                <th class="data-title">Status</th>
+            </tr>
         </thead>
         <tbody>
             {% for i in taskl %}
             <tr>
                 <td class="data-list">{{ i.project }}</td>
                 <td class="data-list">{{ i.title }}</td>
-                <td class="data-list">{{ i.description}}</td>
-                <td class="data-list">{{ i.due_date}}</td>
-                <td class="data-list">{{ i.employee.get_full_name}}</td>
-                <td class="data-list">{{ i.status}}</td>
-                <!-- <td class="data-list">{{ i.email }}</td> -->
-                <!-- <td class="data-list">{{ i.profile.qualification }}</td> -->
-                <!-- <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td> -->
-                <!-- <td class="data-list">{{ i.profile.gender }}</td> -->
-
+                <td class="data-list">{{ i.description }}</td>
+                <td class="data-list">{{ i.due_date }}</td>
+                <td class="data-list">
+                    <a href="javascript:void(0);" class="employee-name" data-id="{{ i.id }}"
+                         data-project="{{ i.project }}" data-title="{{ i.title }}"
+                        data-created_at="{{ i.created_at }}" data-due_date="{{ i.due_date }}"
+                        data-start_at="{{ i.start_at}}" data-manager="{{ i.manager }}"
+                        data-description="{{ i.description }}"
+                        data-status = "{{i.status}}">
+                        {{ i.status }}
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Modal for Updating status-->
+    <div class="detail-model" id="assignManagerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Task Details</h2>
+                <span class="modal-close" id="closeModal" style="cursor: pointer;">&times;</span>
+            </div>
+            <form id="assignManagerForm" action="{% url 'taskstatus' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="employee_id" id="employee_id">
+
+                <div class="modal-body">
+                    <div class="employee-details">
+                        <h3>Task Details</h3>
+                        <p><strong>Project: </strong><span id="emp_name"></span></p>
+                        <p><strong>Title: </strong><span id="emp_contact"></span></p>
+                        <p><strong>Description: </strong><span id="emp_email"></span></p>
+                        <p><strong>Due Date: </strong><span id="emp_qualification"></span></p>
+                        <p><strong>Status: </strong><span id="emp_doj"></span></p>
+                    </div>
+
+                    <div class="input-field">
+                        <label for="manager">Select Status:</label>
+                        <select name="status" id="manager" required>
+                           <option value="pending">Pending</option>
+                           <option value="in_progress">In Process</option>
+                           <option value="on_hold">On Hold</option>
+                           <option value="completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="submit" class="submit-btn" value="Proceed">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 </div>
 {% endif %}
+
+{% block extra_js %}
+<script>
+    // Open the modal and fill it with specific user data
+    document.querySelectorAll('.employee-name').forEach(item => {
+        item.addEventListener('click', function () {
+            // Set user data in the modal
+            document.getElementById('emp_name').textContent = this.getAttribute('data-project');
+            document.getElementById('emp_contact').textContent = this.getAttribute('data-title');
+            document.getElementById('emp_email').textContent = this.getAttribute('data-description');
+            document.getElementById('emp_qualification').textContent = this.getAttribute('data-due_date');
+            document.getElementById('emp_doj').textContent = this.getAttribute('data-status');
+            // Set the employee ID for the form
+            document.getElementById('employee_id').value = this.getAttribute('data-id');
+
+            // Show the modal
+            document.getElementById('assignManagerModal').style.display = 'flex';
+        });
+    });
+
+    // Close the modal
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('assignManagerModal').style.display = 'none';
+    });
+</script>
+{% endblock %}
 {% endblock %}
