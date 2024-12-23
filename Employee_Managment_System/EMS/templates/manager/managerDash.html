@@ -12,7 +12,11 @@
             <div class="box box1">
                 <i class="uil uil-thumbs-up"></i>
                 <span class="text">Employee</span>
+                {% if em %}
                 <span class="number">{{em}}</span>
+                {% else %}
+                <span class="number">0</span>
+                {% endif %}
             </div>
             <div class="box box2">
                 <i class="uil uil-comments"></i>
@@ -22,7 +26,11 @@
             <div class="box box3">
                 <i class="uil uil-share"></i>
                 <span class="text">Project</span>
+                {% if pro %}
                 <span class="number">{{pro}}</span>
+                {% else %}
+                <span class="number">0</span>
+                {% endif %}
             </div>
             <!-- <div class="box box4">
                 <i class="uil uil-share"></i>
@@ -32,7 +40,7 @@
         </div>
     </div>
 
-     
+
 </div>
 
 
