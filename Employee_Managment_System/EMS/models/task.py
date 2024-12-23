@@ -21,7 +21,7 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)   
     team_lead = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='task_as_team_lead')  # Team lead for the task
-
+    start_at = models.DateField(null=True,blank=True)
 
     def __str__(self):
         return self.title
