@@ -43,15 +43,15 @@
                         <i class="uil uil-user"></i>
                         <span class="link-name">Employee</span>
                     </a></li> -->
-                <li><a href="#">
+                <li><a href="{% url 'tasklist' %}">
                         <i class="uil uil-clipboard-notes"></i>
                         <span class="link-name">Task</span>
                     </a></li>
-                <li><a href="#">
+                <li><a href="{% url 'projectlist' %}">
                         <i class="uil uil-book-open"></i>
                         <span class="link-name">Projects</span>
                     </a></li>
-                <li><a href="#">
+                <li><a href="{% url 'all_attendance' %}">
                         <i class="uil uil-clipboard-blank"></i>
                         <span class="link-name">Attendance</span>
                     </a></li>
@@ -100,7 +100,7 @@
 
             <!-- <img src="images/profile.jpg" alt=""> -->
             {% if user.profile.image %}
-            <img src="{{ user.profile.image.url }}" alt="Profile Image" width="200">
+            <img src="{{ user.profile.image.url }}" width="200">
             {% else %}
             <h4>
                 {{user.get_full_name}}
