@@ -11,23 +11,23 @@
         <div class="menu-items">
             <ul class="hnav-links">
                 <li>
-                    <a href="{% url 'employeelist' %}">
+                    <a href="{% url 'taskcreate' %}">
+                        <!-- <i class="uil uil-chart"></i> -->
+                        <i class="uil uil-clipboard"></i>
+                        <span class="link-name">Create</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'tasklist' %}">
                         <!-- <i class="uil uil-chart"></i> -->
                         <i class="uil uil-clipboard"></i>
                         <span class="link-name">List</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{% url 'employeerequest' %}">
-                        <!-- <i class="uil uil-chart"></i> -->
-                        <i class="uil uil-clipboard"></i>
-                        <span class="link-name">Request</span>
-                    </a>
-                </li>
             </ul>
         </div>
         
-       {% block manager %} {% endblock %}
+       {% block task %} {% endblock %}
     </div>
 </div>
 

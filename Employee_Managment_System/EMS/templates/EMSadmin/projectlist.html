@@ -6,42 +6,29 @@
     <span class="text">Project List</span>
 </div>
 
-{% if e1 %}
+{% if list %}
 <div class="activity-data">
     <table class="table">
         <thead>
-            <th class="data-title">Name</th>
+            <th class="data-title">Project Name</th>
+            <th class="data-title">Client Name</th>
             <th class="data-title">Manager</th>
-            <th class="data-title">Email</th>
-            <th class="data-title">Qualification</th>
-            <th class="data-title">Date of Join</th>
-            <th class="data-title">Gender</th>
-            <th class="data-title">Action</th>
+            <th class="data-title">Description</th>
+            <th class="data-title">Start Date</th>
+            <th class="data-title">Deadline</th>
+            <!-- <th class="data-title">Action</th>   -->
         </thead>
         <tbody>
-            {% for i in e1 %}
+            {% for i in list %}
             <tr>
-                <td class="data-list">{{ i.get_full_name }}</td>
-                <td class="data-list">{{ i.profile.manager.get_full_name }}</td>
-                <td class="data-list">{{ i.email }}</td>
-                <td class="data-list">{{ i.profile.qualification }}</td>
-                <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td>
-                <td class="data-list">{{ i.profile.gender }}</td>
+                <td class="data-list">{{ i.project_name }}</td>
+                <td class="data-list">{{ i.client_name }}</td>
+                <td class="data-list">{{ i.manager }}</td>
+                <td class="data-list">{{ i.description }}</td>
+                <td class="data-list">{{ i.start_date }}</td>
+                <td class="data-list">{{ i.deadline_date }}</td>
 
                 <!-- Form for Deleting User -->
-                <td class="data-list" style="display: flex; gap: 1rem;">
-                    <form action="{% url 'delete_emp' i.id %}" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" class="del-btn" style="background: none; border: none; cursor: pointer;">
-                            <i class="uil uil-trash-alt" style="font-size: 1.22rem;"></i>
-                        </button>
-                    </form>
-                    <button class="doc-btn" style="background: none; border: none; cursor: pointer;">
-                            <a href="{{ i.profile.aadhar_card.url }}" target="_blank">
-                                <i class="uil uil-file-check-alt" style="font-size: 1.22rem;"></i>
-                            </a>
-                    </button>
-                </td>
             </tr>
             {% endfor %}
         </tbody>

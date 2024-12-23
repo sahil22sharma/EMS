@@ -13,12 +13,14 @@ urlpatterns = [
     path('home/manager/request',views.managerrequest,name='managerrequest'),
     path('manageractivation/',views.manageractivation,name='manageractivation'),
     path('delete_man/<int:user_id>/', views.delete_man, name='delete_man'),
+    path('home/project/create',views.projectcreate,name='projectcreate'),
 
 
     #Manager Routes
     path('register_man/',views.register_man,name='register_man'),
     path('man_login/',views.man_login,name='man_login'),
     path('man/task/list',views.tasklist,name='tasklist'),
+    path('man/task/create',views.taskcreate,name='taskcreate'),
 
 
 
@@ -31,9 +33,8 @@ urlpatterns = [
     path('home/',views.home,name='home'),
     path('logout/',views.all_logout,name='logout'),
     path('home/attendance',views.all_attendance,name='all_attendance'),
-    # path('home/task'),
     path('home/project/list',views.projectlist,name='projectlist'),
-    path('home/project/create',views.projectcreate,name='projectcreate'),
+    # path('home/task'),
     # path('home/leave'),
     # path('home/notices'),
 
