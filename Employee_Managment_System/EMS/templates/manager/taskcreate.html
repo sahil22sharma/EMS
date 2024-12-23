@@ -2,6 +2,7 @@
 {% block task %}
 {% load static %}
 
+<<<<<<< HEAD
 <div class="form-container">
     <h2>Create Task</h2>
     <form method="post" >
@@ -46,5 +47,113 @@
         <button type="submit" class="submit-btn">Submit Task</button>
     </form>
 </div>
+=======
+<form action="/create_task/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="modal-body">
+        <!-- Title Field -->
+        <div class="input-field">
+            <label for="title">Task Title</label>
+            <input type="text" name="title" id="title" placeholder="Enter task title" required>
+        </div>
+
+        <!-- Description Field -->
+        <div class="input-field">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" placeholder="Enter task description" required></textarea>
+        </div>
+
+        <!-- Team Lead Field -->
+        <div class="input-field">
+            <label for="team_lead">Team Lead</label>
+            <select name="team_lead" id="team_lead" required>
+                <option value="" disabled selected>Select Team Lead</option>
+                <!-- Team leads will be populated dynamically -->
+                <option value="team_lead_1">Team Lead 1</option>
+                <option value="team_lead_2">Team Lead 2</option>
+            </select>
+        </div>
+
+        <!-- Manager Field -->
+        <div class="input-field">
+            <label for="manager">Assign Manager</label>
+            <select name="manager" id="manager" required>
+                <option value="" disabled selected>Select Manager</option>
+                <!-- Managers will be populated dynamically -->
+                <option value="manager_1">Manager 1</option>
+                <option value="manager_2">Manager 2</option>
+            </select>
+        </div>
+
+        <!-- Project Field -->
+        <div class="input-field">
+            <label for="project">Project</label>
+            <select name="project" id="project" required>
+                <option value="" disabled selected>Select Project</option>
+                <!-- Projects will be populated dynamically -->
+                <option value="project_1">Project 1</option>
+                <option value="project_2">Project 2</option>
+            </select>
+        </div>
+
+        <!-- Status Field -->
+        <div class="input-field">
+            <label for="status">Status</label>
+            <select name="status" id="status" required>
+                <option value="" disabled selected>Select Status</option>
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+
+        <!-- Priority Field -->
+        <div class="input-field">
+            <label for="priority">Priority</label>
+            <select name="priority" id="priority" required>
+                <option value="" disabled selected>Select Priority</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
+
+        <!-- Start Date Field -->
+        <div class="input-field">
+            <label for="start_date">Start Date</label>
+            <input type="date" name="start_date" id="start_date" required>
+        </div>
+
+        <!-- Due Date Field -->
+        <div class="input-field">
+            <label for="due_date">Due Date</label>
+            <input type="date" name="due_date" id="due_date" required>
+        </div>
+
+        <!-- Completion Date Field -->
+        <div class="input-field">
+            <label for="completion_date">Completion Date</label>
+            <input type="date" name="completion_date" id="completion_date">
+        </div>
+
+        <!-- Created At Field (Auto-managed) -->
+        <div class="input-field">
+            <label for="created_at">Created At</label>
+            <input type="text" name="created_at" id="created_at" value="{{ current_date }}" disabled readonly>
+        </div>
+
+        <!-- Updated At Field (Auto-managed) -->
+        <div class="input-field">
+            <label for="updated_at">Updated At</label>
+            <input type="text" name="updated_at" id="updated_at" value="{{ current_date }}" disabled readonly>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="input-field">
+            <button type="submit" class="submit-btn">Create Task</button>
+        </div>
+    </div>
+</form>
+>>>>>>> 4891a45417c5af05b9835d60e3e93f269bd7d89c
 
 {% endblock %}
