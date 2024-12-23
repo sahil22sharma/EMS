@@ -1,0 +1,45 @@
+{% extends 'employee/task.html' %}
+{% block task %}
+{% load static %}
+
+<div class="form-container">
+    <h2>Task Assign</h2>
+    <form method="post" >
+        {% csrf_token %}
+        
+        <div class="input-field">
+            <label for="project">Project</label>
+            <select id="project" name="project" required>
+                <option value="">Select Project</option>
+                {% for project in projects %}
+                    <option value="{{ project.id }}">{{ project.project_name }}</option>
+                    {% endfor %}
+            </select>
+        </div>
+        
+        <div class="input-field">
+            <label for="task-title">Task Title</label>
+            <input type="text" id="task-title" name="task-title" placeholder="Enter task title" required>
+        </div>
+        
+        <div class="input-field">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Enter task description" required></textarea>
+        </div>
+        
+        <div class="input-field">
+            <label for="employee">Assign to Employee</label>
+            <select id="employee" name="employee" required>
+                <option value="">Select Employee</option>
+                <option value="all">All</option>
+                {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Task</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'employee/task.html' %}
+{% block task %}
+{% load static %}
+
+<div class="title">
+    <span class="text">Task List</span>
+</div>
+
+{% if taskl %}
+<div class="activity-data">
+    <table class="table">
+        <thead>
+            <th class="data-title">Project</th>
+            <th class="data-title">Title</th>
+            <th class="data-title">Description</th>
+            <th class="data-title">Due Date</th>
+            <th class="data-title">Employee</th>
+            <th class="data-title">Status</th>
+          
+        </thead>
+        <tbody>
+            {% for i in taskl %}
+            <tr>
+                <td class="data-list">{{ i.project }}</td>
+                <td class="data-list">{{ i.title }}</td>
+                <td class="data-list">{{ i.description}}</td>
+                <td class="data-list">{{ i.due_date}}</td>
+                <td class="data-list">{{ i.employee.get_full_name}}</td>
+                <td class="data-list">{{ i.status}}</td>
+                <!-- <td class="data-list">{{ i.email }}</td> -->
+                <!-- <td class="data-list">{{ i.profile.qualification }}</td> -->
+                <!-- <td class="data-list">{{ i.date_joined|date:"Y-m-d" }}</td> -->
+                <!-- <td class="data-list">{{ i.profile.gender }}</td> -->
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'employee/base.html' %} {% block content %}
+{% load static %}
+
+<div class="dash-content">
+<div class="title">
+    <span class="text">Project List</span>
+</div>
+{% if list %}
+<div class="activity-data">
+    <table class="table">
+        <thead>
+            <th class="data-title">Project Name</th>
+            <th class="data-title">Client Name</th>
+            <th class="data-title">Manager</th>
+            <th class="data-title">Description</th>
+            <th class="data-title">Start Date</th>
+            <th class="data-title">Deadline</th>
+            <!-- <th class="data-title">Action</th>   -->
+        </thead>
+        <tbody>
+            {% for i in list %}
+            <tr>
+                <td class="data-list">{{ i.project_name }}</td>
+                <td class="data-list">{{ i.client_name }}</td>
+                <td class="data-list">{{ i.manager.get_full_name }}</td>
+                <td class="data-list">{{ i.description }}</td>
+                <td class="data-list">{{ i.start_date }}</td>
+                <td class="data-list">{{ i.deadline_date }}</td>
+                
+                <!-- Form for Deleting User -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}
+</div>

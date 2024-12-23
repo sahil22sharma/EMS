@@ -19,7 +19,6 @@ urlpatterns = [
     #Manager Routes
     path('register_man/',views.register_man,name='register_man'),
     path('man_login/',views.man_login,name='man_login'),
-    path('man/task/list',views.tasklist,name='tasklist'),
     path('man/task/create',views.taskcreate,name='taskcreate'),
 
 
@@ -27,14 +26,14 @@ urlpatterns = [
     #Employee Routes
     path('register_emp/', views.register_emp, name='register_emp'),
     path('emp_login/',views.emp_login,name='emp_login'),
-
+    # path('home/task/status',views.status,name='status'),
 
     #Common Routes
     path('home/',views.home,name='home'),
     path('logout/',views.all_logout,name='logout'),
     path('home/attendance',views.all_attendance,name='all_attendance'),
     path('home/project/list',views.projectlist,name='projectlist'),
-    # path('home/task'),
+    path('home/task/list',views.tasklist,name='tasklist'),
     # path('home/leave'),
     # path('home/notices'),
 

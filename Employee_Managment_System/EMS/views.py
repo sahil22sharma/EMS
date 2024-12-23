@@ -390,6 +390,14 @@ def all_attendance(request):
             
             return render(request, 'EMSadmin/attendance.html', {'e1': attendance_data})
         
+        elif role == 'manager':
+            attendance_data = Attendance.objects.filter(user = request.user)
+            return render(request, 'manager/attendance.html', {'e1': attendance_data})
+        
+        elif role == 'employee':
+            attendance_data = Attendance.objects.filter(user = request.user)
+            return render(request, 'employee/attendance.html', {'e1': attendance_data})
+        
         else:
             return render(request, 'index.html')  # If the user doesn't have proper permissions
     
@@ -491,8 +499,16 @@ def delete_man(request, user_id):
         return redirect('managerlist')  # Redirect back to the employee list page (adjust if needed)
     
 def tasklist(request):
-    taskl = Task.objects.filter(manager=request.user)
-    return render(request, "manager/tasklist.html",{'taskl':taskl})
+    # taskl = Task.objects.filter(manager=request.user)
+    # return render(request, "manager/tasklist.html",{'taskl':taskl})
+    if request.user.is_authenticated:
+            role = request.user.profile.role
+            if role == 'manager':
+                taskl = Task.objects.filter(manager=request.user)
+                return render(request, "manager/tasklist.html",{'taskl':taskl})
+            elif role == 'employee':
+                taskl = Task.objects.filter(employee=request.user)
+                return render(request,'employee/tasklist.html',{'taskl':taskl})
 
 def taskcreate(request):
     if request.method == 'POST':
@@ -550,6 +566,9 @@ def projectlist(request):
         elif role == 'manager':
             list = Project.objects.filter(manager=request.user)
             return render(request,'manager/projectlist.html',{'list':list})
+        elif role == 'employee':
+            list = Project.objects.filter(manager=request.user.profile.manager)
+            return render(request,'employee/projectlist.html',{'list':list})
         
 
 def projectcreate(request):
@@ -585,3 +604,5 @@ def projectcreate(request):
         return render(request, 'EMSadmin/projectcreate.html',{'managers':managers})
     # return render(request,'EMSadmin/projectcreate.html')
 
+def status(request):
+    return render(request,'employee/taskstatus.html')
