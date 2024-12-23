@@ -19,7 +19,9 @@ class Task(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')  # Task status
     manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='task_as_manager')  # Manager creating the task
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)   
+    team_lead = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='task_as_team_lead')  # Team lead for the task
+
 
     def __str__(self):
         return self.title

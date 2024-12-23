@@ -59,6 +59,26 @@ def emp_login(request):
             if user.is_active: 
                 print('y')
                 login(request, user)
+                today = datetime.today().date()
+
+            # Check if the user has any attendance record for today
+                attendance = Attendance.objects.filter(user=user, date=today).first()
+
+                if not attendance:
+                    # If no record exists for today, create a new one
+                    Attendance.objects.create(
+                        user=user,
+                        date=today,
+                        loginTime=datetime.now().strftime('%H:%M:%S'),
+                        status='Present'
+                    )
+                else:
+                    # If attendance exists, check if logout time is missing
+                    if not attendance.logoutTime:
+                        attendance.logoutTime = datetime.now().strftime('%H:%M:%S')  # Set logout time
+                        attendance.status = 'Present'
+                        attendance.save()
+                
                 return redirect('home') 
             else:
                 print('User is inactive')
@@ -455,7 +475,7 @@ def delete_man(request, user_id):
     
 def tasklist(request):
     taskl = Task.objects.filter(manager=request.user)
-    return render(request, "manager/tasklist.html")
+    return render(request, "manager/tasklist.html",{'taskl':taskl})
 
 def taskcreate(request):
     if request.method == 'POST':
@@ -512,7 +532,7 @@ def projectlist(request):
             return render(request,'EMSadmin/projectlist.html',{'list':list})
         elif role == 'manager':
             list = Project.objects.filter(manager=request.user)
-            return render(request,'manager/project.html',{'list':list})
+            return render(request,'manager/projectlist.html',{'list':list})
         
 
 def projectcreate(request):
