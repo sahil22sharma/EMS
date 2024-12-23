@@ -289,7 +289,7 @@ def employeelist(request):
             e1 = e1.select_related('profile')
             return render(request,'EMSadmin/employeeList.html',{'e1':e1})
         elif role=='manager':
-            e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
+            e1 = User.objects.filter(profile__role='employee',is_active = True,profile__manager = request.user)  # Fetch all User records
             e1 = e1.select_related('profile')
             return render(request,'manager/employeeList.html',{'e1':e1})
     else:

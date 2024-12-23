@@ -12,8 +12,8 @@ urlpatterns = [
     path('home/manager/list',views.managerlist,name='managerlist'),
     path('home/manager/request',views.managerrequest,name='managerrequest'),
     path('manageractivation/',views.manageractivation,name='manageractivation'),
-    path('delete_man/<int:user_id>/', views.delete_man, name='delete_man'),
     path('home/project/create',views.projectcreate,name='projectcreate'),
+    path('delete_man/<int:user_id>/', views.delete_man, name='delete_man'),
 
 
     #Manager Routes
