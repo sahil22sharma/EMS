@@ -4,10 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db import models
 from .models.profile import Profile
-from .models.tasks import Task
-# from .models.project import Project
-from .models.projectmodel import Project
-from .models.taskmodel import Task
+from .models.project import Project
+from .models.task import Task
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.utils import timezone
@@ -456,70 +454,97 @@ def delete_man(request, user_id):
         return redirect('managerlist')  # Redirect back to the employee list page (adjust if needed)
     
 def tasklist(request):
+    taskl = Task.objects.filter(manager=request.user)
     return render(request, "manager/tasklist.html")
 
 def taskcreate(request):
-    return render(request, "manager/taskcreate.html")
+    if request.method == 'POST':
+        # Handle form submission
+        project_id = request.POST.get('project')
+        employee_id = request.POST.get('employee')
+        title = request.POST.get('task-title')
+        description = request.POST.get('description')
+        due_date = request.POST.get('date')
+        manager = request.user
+        project = Project.objects.get(id=project_id) if project_id else None
+        
+        if employee_id == 'all':
+            emp = User.objects.filter(profile__manager = request.user)
+            for i in emp:
+                task = Task.objects.create(
+                title=title,
+                description=description,
+                due_date=due_date,
+                employee=i,
+                project=project,
+                manager=manager
+                )
+                # task.save()
+        else:
+            employee = User.objects.get(id=employee_id) if employee_id else None
+        # Handle creating the task
+        # project = Project.objects.get(id=project_id) if project_id else None
+            Task.objects.create(
+                title=title,
+                description=description,
+                due_date=due_date,
+                employee=employee,
+                project=project,
+                manager=manager
+            )
+        print(project_id,employee_id,title,description)
+        return redirect('tasklist')  # Redirect to the task list after creation
+
+    projects = Project.objects.filter(manager=request.user)
+    employees = User.objects.filter(profile__manager=request.user)
+
+    return render(request, 'manager/taskcreate.html', {
+        'projects': projects,
+        'employees': employees
+    })
+    # return render(request, "manager/taskcreate.html")
 
 def projectlist(request):
-    return render(request,'EMSadmin/projectlist.html')
+    if request.user.is_authenticated:
+        role = request.user.profile.role
+        if role == 'admin':
+            list = Project.objects.all()
+            return render(request,'EMSadmin/projectlist.html',{'list':list})
+        elif role == 'manager':
+            list = Project.objects.filter(manager=request.user)
+            return render(request,'manager/project.html',{'list':list})
+        
 
 def projectcreate(request):
     if request.method == 'POST':
-        client=request.POST.get('client_name')
-        name = request.POST.get('project_name')
+        # Retrieve form data from request.POST
+        client_name = request.POST.get('client_name')
+        project_name = request.POST.get('project_name')
         description = request.POST.get('description')
-        start_date=request.POST.get('start_date')
-        completion_date=request.POST.get('deadline_date')
-        manager=request.POST.get('manager')
-        role = request.user.profile.role
-        if role=='admin':
-            e1 = User.objects.filter(profile__role='manager',is_active=True)  # Fetch all User records
-            e1 = e1.select_related('profile')
-            return render(request,'EMSadmin/projectcreate.html')
-    project=Project.objects.create(client=client,name=name,description=description,manager=manager,start_date=start_date,completion_date=completion_date)
-    project.save()   
-    return render(request,'EMSadmin/projectcreate.html')
+        manager_id = request.POST.get('manager')  # This is the manager selected from the dropdown
+        start_date = request.POST.get('start_date')
+        deadline_date = request.POST.get('deadline_date')
 
-def create_task(request):
-    """Handle the task creation."""
-    if request.method == 'POST':
-        title = request.POST['title']
-        description = request.POST['description']
-        team_lead_id = request.POST['team_lead']
-        manager_id = request.POST['manager']
-        project_id = request.POST['project']
-        status = request.POST['status']
-        priority = request.POST['priority']
-        start_date = request.POST['start_date']
-        due_date = request.POST['due_date']
-        completion_date = request.POST.get('completion_date', None)  # Optional field
+        # Handle the manager - it's a ForeignKey, so we get the User object
+        manager = User.objects.get(id=manager_id) if manager_id else None
 
-        team_lead = User.objects.get(id=team_lead_id)
-        manager = User.objects.get(id=manager_id)
-        project = Project.objects.get(id=project_id)
-
-        task = Task(
-            title=title,
+        # Create a new Project object and save it to the database
+        project = Project(
+            client_name=client_name,
+            project_name=project_name,
             description=description,
-            team_lead=team_lead,
             manager=manager,
-            project=project,
-            status=status,
-            priority=priority,
             start_date=start_date,
-            due_date=due_date,
-            completion_date=completion_date,
-            created_at=timezone.now(),  # This will be set automatically by Django
-            updated_at=timezone.now(),  # This will be set automatically by Django
+            deadline_date=deadline_date
         )
-        task.save()
+        project.save()
 
-        messages.success(request, 'Task created successfully!')
-        return redirect('task_list')  # Replace with the actual URL for the task list page
-
-    return render(request, 'EMSadmin/create_task.html')
-
-
-
+        # Redirect to another page (e.g., project list or success page)
+        return redirect('projectlist')  # Adjust to the appropriate URL name
+    else:
+        # GET request - render the form
+        e1 = User.objects.filter(profile__role='manager',is_active=True)  # Fetch all User records
+        managers = e1.select_related('profile') # Get all users for manager selection
+        return render(request, 'EMSadmin/projectcreate.html',{'managers':managers})
+    # return render(request,'EMSadmin/projectcreate.html')
 

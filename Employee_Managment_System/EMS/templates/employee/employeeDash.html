@@ -1,4 +1,6 @@
-{% extends 'employee/base.html' %} {% block content %}
+{% extends 'employee/base.html' %}
+
+{% block content %}
 {% load static %}
 
 <div class="dash-content">
@@ -21,19 +23,19 @@
             </div>
             <div class="box box3">
                 <i class="uil uil-share"></i>
-                <span class="text">Total Share</span>
-                <span class="number">10,120</span>
+                <span class="text">Attendance</span>
+                
+                {% if attendance %}
+                    <!-- Loop through attendance records to display loginTime -->
+                    {% for record in attendance %}
+                        <span class="number">{{ record.loginTime }}</span>
+                    {% endfor %}
+                {% else %}
+                    <span class="number">No attendance recorded for today</span>
+                {% endif %}
             </div>
-            <!-- <div class="box box4">
-                <i class="uil uil-share"></i>
-                <span class="text">Total Share</span>
-                <span class="number">10,120</span>
-            </div> -->
         </div>
     </div>
-
-    
 </div>
-
 
 {% endblock %}

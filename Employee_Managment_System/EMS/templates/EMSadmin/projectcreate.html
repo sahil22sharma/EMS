@@ -3,7 +3,7 @@
 {% load static %}
 
 
-<form action="/create_project/" method="POST" enctype="multipart/form-data">
+<form action="{% url 'projectcreate' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="modal-body">
         <div class="input-field">
@@ -23,8 +23,10 @@
             <select name="manager" id="manager" required>
                 <option value="" disabled selected>Select Manager</option>
                 <!-- Managers will be populated dynamically -->
-                <option value="manager_1">Manager 1</option>
-                <option value="manager_2">Manager 2</option>
+                {% for manager in managers %}
+                <option value="{{ manager.id }}">{{ manager.username }}</option>
+                <!-- Assuming manager is a User object -->
+                {% endfor %}
             </select>
         </div>
         <div class="input-field">
@@ -36,7 +38,7 @@
             <input type="date" name="deadline_date" id="deadline_date" required>
         </div>
         <div class="input-field">
-            <button type="submit" class="submit-btn" >Create Project</button>
+            <button type="submit" class="submit-btn">Create Project</button>
         </div>
     </div>
 </form>

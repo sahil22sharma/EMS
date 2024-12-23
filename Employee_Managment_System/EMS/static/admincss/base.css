@@ -21,7 +21,7 @@
     --box3-color: #E7D1FC;
     --box4-color: #edfcd1;
     --title-icon-color: #fff;
-    --delete:rgb(230, 5, 5);
+    --delete: rgb(230, 5, 5);
 
     /* ====== Transition ====== */
     --tran-05: all 0.5s ease;
@@ -37,7 +37,7 @@ body {
 body.dark {
     --primary-color: #3A3B3C;
     /* --primary-color: #14a9d7; */
-    --delete:#CCC;
+    --delete: #CCC;
     --panel-color: #242526;
     --text-color: #CCC;
     --black-light-color: #CCC;
@@ -460,7 +460,7 @@ select {
     margin: 8px 0;
 }
 
-.input-field .submit-btn{
+.input-field .submit-btn {
     background-color: var(--primary-color);
     color: white;
     font-weight: bold;
@@ -469,25 +469,27 @@ select {
 
 }
 
-.dash-title{
+.dash-title {
     color: var(--black-light-color);
 }
 
 /* Table css */
-.activity-data table{
+.activity-data table {
     /* border: 1px solid red; */
     text-align: left;
     font-size: 1.02rem;
     width: 100vw;
 }
-.activity-data table thead th,.activity-data table tbody td{
+
+.activity-data table thead th,
+.activity-data table tbody td {
     width: calc(100% / 7);
     padding: 7px 1rem;
     font-size: 1.1rem;
     color: var(--black-light-color);
 }
 
-.activity-data table tbody .del-btn{
+.activity-data table tbody .del-btn {
     color: var(--delete);
     cursor: pointer;
 }
@@ -501,7 +503,8 @@ select {
     left: 0;
     width: 100%;
     height: 100%;
-    display: none;  /* Hidden by default */
+    display: none;
+    /* Hidden by default */
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -548,11 +551,38 @@ select {
     color: var(--primary-color);
 }
 
-.detail-model .modal-body .input-f{
+.detail-model .modal-body .input-f {
     display: flex;
 }
 
+.model-input-fields {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 0.2rem;
+}
+.model-input-fields label {
+    color: var(--black-light-color);
+    min-width: 150px;
+}
+.model-input-fields input {
+    outline: none;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    padding: 0 15px;
+    height: 42px;
+    margin: 8px 0;
+}
 
+.model-input-fields .submit-btn{
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    color: var(--toggle-color);
+}
 /* project css */
 
 
@@ -683,8 +713,9 @@ select {
         justify-content: center;
         align-items: center;
     }
-    .hnav-links li a{
-        width: 12rem;    
+
+    .hnav-links li a {
+        width: 12rem;
         margin: auto;
     }
 
