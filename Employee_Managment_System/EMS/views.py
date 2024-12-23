@@ -225,19 +225,36 @@ def index(request):
 def home(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
-        e1 = User.objects.filter(profile__role='employee')  # Fetch all User records
-        e1 = e1.select_related('profile')
-        employee_count = e1.count()  
-        e1 = User.objects.filter(profile__role='manager')  # Fetch all User records
-        e1 = e1.select_related('profile')
+        
+        # Fetch the count of employees and managers
+        e1 = User.objects.filter(profile__role='employee')  
+        employee_count = e1.count()
+        e1 = User.objects.filter(profile__role='manager')  
         manager_count = e1.count()
+        
         if role == 'admin':
-            return render(request, 'EMSadmin/indexDash.html',{'employee_count':employee_count, 'manager_count':manager_count})
+            return render(request, 'EMSadmin/indexDash.html', {'employee_count': employee_count, 'manager_count': manager_count})
+        
         elif role == 'manager':
-            return render(request, 'manager/managerDash.html')
-        else:
-            return render(request, 'employee/employeeDash.html')
+            em = User.objects.filter(profile__manager=request.user).count()
+            pro = Project.objects.filter(manager=request.user).count()
+            return render(request, 'manager/managerDash.html', {'em': em, 'pro': pro})
+        
+        elif role == 'employee':
+            # Get today's date
+            today = timezone.now().date()
+            
+            # Filter attendance for today's loginTime
+            att = Attendance.objects.filter(user=request.user, date=today).values('loginTime')
+            
+            # Print the attendance for debugging
+            print("Today's Attendance:", att)
+            
+            # Pass attendance to the template
+            return render(request, 'employee/employeeDash.html', {'att': att})
+
     return render(request, 'index.html')
+
 
 def employeerequest(request):
     return render(request, "EMSadmin/employeeRequest.html")
