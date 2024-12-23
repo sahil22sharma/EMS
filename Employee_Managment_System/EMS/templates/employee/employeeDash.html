@@ -24,10 +24,10 @@
             <div class="box box3">
                 <i class="uil uil-share"></i>
                 <span class="text">Attendance</span>
-                
-                {% if attendance %}
+
+                {% if att %}
                     <!-- Loop through attendance records to display loginTime -->
-                    {% for record in attendance %}
+                    {% for record in att %}
                         <span class="number">{{ record.loginTime }}</span>
                     {% endfor %}
                 {% else %}
