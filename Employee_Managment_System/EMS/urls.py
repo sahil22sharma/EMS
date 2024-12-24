@@ -34,7 +34,7 @@ urlpatterns = [
     path('home/attendance',views.all_attendance,name='all_attendance'),
     path('home/project/list',views.projectlist,name='projectlist'),
     path('home/task/list',views.tasklist,name='tasklist'),
-    # path('home/leave'),
+    path('home/leave/list',views.leavelist,name='leavelist'),
     # path('home/notices'),
 
     # #Admin+Manager
@@ -43,50 +43,10 @@ urlpatterns = [
     path('assign_manager_and_activate/', views.assign_manager_and_activate, name='assign_manager_and_activate'),
     path('delete_emp/<int:user_id>/', views.delete_emp, name='delete_emp'),
     
+    #Manager + Employee
+    path('home/leave/create',views.leavecreate,name='leavecreate')
 
-    # path('',views.homepage,name="home"),
 
-    # # Signup Routes
- 
-    # path('saveAdmin/',views.saveAdmin,name='saveAdmin'),
-    # path('saveManager/',views.saveManager,name='saveManager'),
-    # path('saveEmployee/',views.saveEmployee,name='saveEmployee'),
-    # path('adminLogin/',views.adminlogin,name='adminlogin'), # redirect to login page
-    # # path('loginAdmin/',views.loginAdmin,name='loginAdmin'), 
-    # path('login/', views.login, name='login'),  # The login page URL
-
-    # path('testlogin/',views.testlogin,name='testlogin'),
-    # path('adminDash/',views.base),
-    # path('adminDash/Index', views.adminIndexPage,name='adminDash'),
-    # path('adminDash/manager', views.managerRequest,name='managerRequest'),
-    # path('testlogin/',views.testlogin,name='testlogin'),
-    # path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
-    # path('testloginManager/',views.testloginManager,name='testloginManager'),
-    # path('adminDash/managerlist', views.managerlist,name='managerlist'),
-    # path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
-    # path('adminDash/employeelist', views.employeelist,name='employeelist'),
-    # path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
-    # path('testlogin/',views.testlogin,name='testlogin'),
-    # path('adminDash/',views.base),
-    # path('adminDash/Index', views.adminIndexPage,name='adminDash'),
-    # path('adminDash/manager', views.managerRequest,name='managerRequest'),
-    # path('testlogin/',views.testlogin,name='testlogin'),
-    # path('testloginEmployee/',views.testloginEmployee,name='testloginEmployee'),
-    # path('testloginManager/',views.testloginManager,name='testloginManager'),
-    # path('adminDash/managerlist', views.managerpage,name='managerlist'),
-    # path('adminDash/managerrequest', views.managerrequest,name='managerrequest'),
-    # path('adminDash/employeelist', views.allEmployee,name='employeelist'),
-    # path('adminDash/employeerequest', views.employeerequest,name='employeerequest'),
-    # path('adminDash/employeeStatus',views.employeestatus,name='employeestatus'),
-
-    # path('employeeDash/',views.baseEmployee),
-    # path('employeeDash/Index', views.employeeIndexPage,name='employeeDash'),
-    # path('managerDash/',views.baseManager),
-    # path('managerDash/Index', views.managerIndexPage,name='managerDash'),
-    # path('managerDash/employeelist', views.managerEmployeelist,name='managerEmployeelist'),
-    # path('managerDash/employeerequest', views.managerEmployeerequest,name='managerEmployeerequest'),
-    # path('allEmployee/',views.allEmployee,)
-    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
