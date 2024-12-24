@@ -15,10 +15,50 @@ from .models.attendance import Attendance
 
 
 # Registration view
+# def register_emp(request):
+#     if request.method == 'POST':
+#         role = 'employee' 
+#         # Additional fields for the Manager model
+#         fname = request.POST.get('fname')
+#         lname = request.POST.get('lname')
+#         phone = request.POST.get('contact')
+#         email = request.POST.get('email')
+#         username = email
+#         gender = request.POST.get('gender')
+#         dob = request.POST.get('dob')
+#         address = request.POST.get('address')
+#         state = request.POST.get('state')
+#         qualification = request.POST.get('qualification')
+#         password = request.POST.get('password')
+#         image = request.FILES.get('image')  # Handling file uploads
+#         aadhar_card = request.FILES.get('aadhar_card', None)
+#         cv = request.FILES.get('cv', None)
+#         # resume = request.FILES.get('resume')  # Handling file uploads
+#         # Create the user
+#         try:
+#             # Create the user
+#             user = User.objects.create_user(username=username, first_name=fname, last_name=lname, email=email, password=password, is_active=False)
+#             user.save()
+
+#             # Create the Profile model with additional fields
+#             profile = Profile.objects.create(user=user, role=role, fname=fname, lname=lname, phone=phone, gender=gender, dob=dob, address=address, state=state, qualification=qualification, image=image, aadhar_card=aadhar_card, cv=cv)
+#             profile.save()
+
+#             # If profile creation is successful, show a success message
+#             messages.success(request, "Registration successful! Your account is awaiting approval.")
+#             return render(request, 'employee/employeeLogin.html')
+
+#         except Exception as e:
+#             # If any error occurs, show an error message
+#             messages.error(request, f"Registration failed. Please try again. Error: {str(e)}")
+#     return render(request, 'employee/employeeReg.html') 
+
+
 def register_emp(request):
     if request.method == 'POST':
-        role = 'employee' 
-        # Additional fields for the Manager model
+        role = 'employee'
+
+        # Getting the form data
         fname = request.POST.get('fname')
         lname = request.POST.get('lname')
         phone = request.POST.get('contact')
@@ -30,19 +70,34 @@ def register_emp(request):
         state = request.POST.get('state')
         qualification = request.POST.get('qualification')
         password = request.POST.get('password')
-        image = request.FILES.get('image')  # Handling file uploads
+        image = request.FILES.get('image')
         aadhar_card = request.FILES.get('aadhar_card', None)
         cv = request.FILES.get('cv', None)
-        # resume = request.FILES.get('resume')  # Handling file uploads
-        # Create the user
-        user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password,is_active = False)
-        user.save()
-        # Create the Profile model with additional fields
-        profile = Profile.objects.create(user=user, role=role,fname=fname,lname=lname,phone=phone,gender=gender,dob=dob,address=address,state=state,qualification=qualification,image=image,aadhar_card=aadhar_card,cv=cv)
-        r = profile.save()
-        if r:
-            return render(request, 'employee/employeeLogin.html') 
-    return render(request, 'employee/employeeReg.html')    
+
+        # Check if the email already exists (to prevent duplicate registrations)
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "This email is already registered.")
+            return render(request, 'employee/employeeReg.html')  # Return to registration form
+
+        try:
+            # Creating the user
+            user = User.objects.create_user(username=username, first_name=fname, last_name=lname, email=email, password=password, is_active=False)
+            user.save()
+
+            # Creating the Profile model
+            profile = Profile.objects.create(user=user, role=role, fname=fname, lname=lname, phone=phone, gender=gender, dob=dob, address=address, state=state, qualification=qualification, image=image, aadhar_card=aadhar_card, cv=cv)
+            profile.save()
+
+            # Success message
+            messages.success(request, "Registration successful! Your account is awaiting approval.")
+            return redirect('emp_login')   # Redirect to login page after registration
+
+        except Exception as e:
+            # If something goes wrong, show an error message
+            messages.error(request, f"Registration failed. Please try again. Error: {str(e)}")
+            return render(request, 'employee/employeeReg.html')  # Return to registration form if an error occurs
+
+    return render(request, 'employee/employeeReg.html')
     
 
 # Login view
@@ -377,32 +432,58 @@ def all_logout(request):
     return render(request,'index.html')  # Replace with your login page name or URL
 
     
+# def all_attendance(request):
+#     if request.user.is_authenticated:
+#         role = request.user.profile.role  # Assuming there's a role field in User profile
+        
+#         if role == 'admin' or role == 'manager':  # Only allow admin/manager to view all attendance data
+#             attendance_data = Attendance.objects.all()  # Fetch all attendance records
+            
+#             # Print attendance data for debugging
+#             for attendance in attendance_data:
+#                 print(f"User: {attendance.user.get_full_name()}, Date: {attendance.date}, Login Time: {attendance.loginTime}, Logout Time: {attendance.logoutTime}, Status: {attendance.status}")
+            
+#             return render(request, 'EMSadmin/attendance.html', {'e1': attendance_data})
+        
+#         elif role == 'manager':
+#             attendance_data = Attendance.objects.filter(user = request.user)
+#             return render(request, 'manager/attendance.html', {'e1': attendance_data})
+        
+#         elif role == 'employee':
+#             attendance_data = Attendance.objects.filter(user = request.user)
+#             return render(request, 'employee/attendance.html', {'e1': attendance_data})
+        
+#         else:
+#             return render(request, 'index.html')  # If the user doesn't have proper permissions
+    
+#     else:
+#         return render(request, 'index.html')  #
+
 def all_attendance(request):
     if request.user.is_authenticated:
         role = request.user.profile.role  # Assuming there's a role field in User profile
         
+        # Get the date from the GET request, default to today's date if no date is selected
+        filter_date = request.GET.get('date', datetime.today().date())  # Default to today if no date is passed
+        
+        # Fetch attendance data based on user role and date filter
         if role == 'admin' or role == 'manager':  # Only allow admin/manager to view all attendance data
-            attendance_data = Attendance.objects.all()  # Fetch all attendance records
-            
-            # Print attendance data for debugging
-            for attendance in attendance_data:
-                print(f"User: {attendance.user.get_full_name()}, Date: {attendance.date}, Login Time: {attendance.loginTime}, Logout Time: {attendance.logoutTime}, Status: {attendance.status}")
-            
-            return render(request, 'EMSadmin/attendance.html', {'e1': attendance_data})
+            attendance_data = Attendance.objects.filter(date=filter_date)  # Filter by date
+            return render(request, 'EMSadmin/attendance.html', {'e1': attendance_data, 'filter_date': filter_date})
         
         elif role == 'manager':
-            attendance_data = Attendance.objects.filter(user = request.user)
-            return render(request, 'manager/attendance.html', {'e1': attendance_data})
+            attendance_data = Attendance.objects.filter(user=request.user, date=filter_date)  # Filter by user and date
+            return render(request, 'manager/attendance.html', {'e1': attendance_data, 'filter_date': filter_date})
         
         elif role == 'employee':
-            attendance_data = Attendance.objects.filter(user = request.user)
-            return render(request, 'employee/attendance.html', {'e1': attendance_data})
+            attendance_data = Attendance.objects.filter(user=request.user, date=filter_date)  # Filter by user and date
+            return render(request, 'employee/attendance.html', {'e1': attendance_data, 'filter_date': filter_date})
         
         else:
             return render(request, 'index.html')  # If the user doesn't have proper permissions
     
     else:
-        return render(request, 'index.html')  #
+        return render(request, 'index.html')
     
 
 

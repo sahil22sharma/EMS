@@ -1,4 +1,5 @@
-{% extends 'EMSadmin/base.html' %} {% block content %}
+{% extends 'EMSadmin/base.html' %}
+{% block content %}
 {% load static %}
 
 <div class="dash-content">
@@ -7,6 +8,13 @@
         <div class="title">
             <span class="text">Attendance</span>
         </div>
+
+        <!-- Date Filter Form -->
+        <form method="get" action="">
+            <label for="date">Filter by Date:</label>
+            <input type="date" id="date" name="date" value="{{ filter_date }}">
+            <button type="submit">Filter</button>
+        </form>
 
         {% if e1 %}
         <div class="activity-data">
@@ -20,17 +28,19 @@
                 </thead>
                 {% for i in e1 %}
                 <tbody>
-                    <td class="data-list">{{i.user.get_full_name}}</td>
-                    <td class="data-list">{{i.date}}</td>
-                    <td class="data-list">{{i.loginTime}}</td>
-                    <td class="data-list">{{i.logoutTime}}</td>
-                    <td class="data-list">{{ i.status}}</td>
+                    <td class="data-list">{{ i.user.get_full_name }}</td>
+                    <td class="data-list">{{ i.date }}</td>
+                    <td class="data-list">{{ i.loginTime }}</td>
+                    <td class="data-list">{{ i.logoutTime }}</td>
+                    <td class="data-list">{{ i.status }}</td>
                 </tbody>
                 {% endfor %}
             </table>
         </div>
+        {% else %}
+        <p>No attendance records found for this date.</p>
+        {% endif %}
     </div>
 </div>
 
-{% endif %}
 {% endblock %}
