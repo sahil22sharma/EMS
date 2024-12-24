@@ -9,7 +9,8 @@ from .models.task import Task
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.utils import timezone
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
+from .models.leave import Leave
 
 from .models.attendance import Attendance
 
@@ -241,6 +242,12 @@ def register_man(request):
         aadhar_card = request.FILES.get('aadhar_card', None)
         # resume = request.FILES.get('resume')  # Handling file uploads
         # Create the user
+        if image:
+            image.name = f"{fname}_{lname}_profile{image.name[image.name.rfind('.'):]}"
+
+        if aadhar_card:
+            aadhar_card.name = f"{fname}_{lname}_aadhar_card{aadhar_card.name[aadhar_card.name.rfind('.'):]}"
+
         user = User.objects.create_user(username=username,first_name=fname,last_name=lname,email=email,password=password,is_active = False)
         user.save()
         # Create the Profile model with additional fields
@@ -729,3 +736,54 @@ def taskstatus(request):
     else:
         # If the request method is not POST, redirect to the task list page
         return redirect('tasklist')  # Or any other page
+
+
+
+def leavelist(request):
+    return render(request,'manager/leavelist.html')
+
+# def leavecreate(request):
+#     return render(request,'manager/leavecreate.html')
+
+def leavecreate(request):
+    if request.method == 'POST':
+        # Get data from the form
+        employee_id = request.user
+        start_date = request.POST.get('startDate')
+        end_date = request.POST.get('endDate')
+        total_days = request.POST.get('totalDays')
+        employee_reason = request.POST.get('employeeReason')
+        status = 'pending'
+        leave_type = request.POST.get('leaveType')
+        
+        # Convert dates to proper format
+        try:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+        except ValueError:
+            return HttpResponse("Invalid date format", status=400)
+        
+        # Calculate the total days if it's not provided (for validation)
+        if not total_days:
+            total_days = (end_date - start_date).days + 1  # +1 because the start day counts as a leave day
+            
+            # If the end date is before the start date
+            if total_days < 0:
+                return HttpResponse("End date must be later than start date.", status=400)
+        
+        # Create a new leave request
+        leave_request = Leave.objects.create(
+            employeeId=employee_id,
+            startDate=start_date,
+            endDate=end_date,
+            totalDays=total_days,
+            employeeReason=employee_reason,
+            status=status,
+            leaveType=leave_type,
+        )
+        
+        # You can either redirect to a success page or render a success message
+        return redirect('leavelist')  # Adjust this to your success URL
+        
+    # If GET request, render the form
+    return render(request, 'manager/leavecreate.html')

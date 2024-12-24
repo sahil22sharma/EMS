@@ -1,0 +1,82 @@
+{% extends 'manager/leave.html' %}
+{% block leave %}
+{% load static %}
+
+<div class="form-container">
+    <h2>Create Leave Request</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="input-field">
+            <label for="startDate">Start Date</label>
+            <input type="date" id="startDate" name="startDate" required onchange="calculateTotalDays()">
+        </div>
+        
+        <div class="input-field">
+            <label for="endDate">End Date</label>
+            <input type="date" id="endDate" name="endDate" required onchange="calculateTotalDays()">
+        </div>
+        
+        
+        <div class="input-field">
+            <label for="totalDays">Total Days</label>
+            <input type="number" id="totalDays" name="totalDays" placeholder="Total days will be calculated" required readonly>
+        </div>
+        
+        <div class="input-field">
+            <label for="employeeReason">Reason for Leave</label>
+            <textarea id="employeeReason" name="employeeReason" placeholder="Enter reason for leave" required></textarea>
+        </div>
+        
+        
+        <div class="input-field">
+            <label for="leaveType">Leave Type</label>
+            <select id="leaveType" name="leaveType" required>
+                <option value="casual_leave">Casual Leave</option>
+                <option value="paid_leave">Paid Leave</option>
+                <option value="sick_leave">Sick Leave</option>
+                <option value="maternity_leave">Maternity Leave</option>
+                <option value="paternity_leave">Paternity Leave</option>
+                <option value="unpaid_leave">Unpaid Leave</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Leave Request</button>
+    </form>
+</div>
+
+
+{% block extra_js %}
+
+
+<script>
+    function calculateTotalDays() {
+        // Get the start date and end date values
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+
+        // If both dates are selected
+        if (startDate && endDate) {
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            
+            // Calculate the difference in milliseconds
+            var timeDiff = end - start;
+            // Convert milliseconds to days
+            var totalDays = timeDiff / (1000 * 3600 * 24) + 1; // +1 because the day of start should be included
+            
+            // If the total days is negative, show an error
+            if (totalDays < 0) {
+                alert("End date must be later than start date.");
+                document.getElementById('totalDays').value = "";
+            } else {
+                // Set the total days value
+                document.getElementById('totalDays').value = totalDays;
+            }
+        }
+    }
+</script>
+{% endblock %}
+
+{% endblock %}
