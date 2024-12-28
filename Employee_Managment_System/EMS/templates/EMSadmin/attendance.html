@@ -16,6 +16,12 @@
             <button type="submit">Filter</button>
         </form>
 
+        <!-- Export Button -->
+        <form method="get" action="">
+            <input type="hidden" name="date" value="{{ filter_date }}">  <!-- Retain the selected date -->
+            <button type="submit" name="export" value="true">Export to Excel</button>
+        </form>
+
         {% if e1 %}
         <div class="activity-data">
             <table class="table">
