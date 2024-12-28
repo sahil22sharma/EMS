@@ -11,6 +11,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.http import HttpResponseBadRequest, HttpResponse
 from .models.leave import Leave
+from openpyxl import Workbook #type:ignore
 from .models.attendance import Attendance
 
 
@@ -472,22 +473,54 @@ def all_attendance(request):
         # Get the date from the GET request, default to today's date if no date is selected
         filter_date = request.GET.get('date', datetime.today().date())  # Default to today if no date is passed
         
-        # Fetch attendance data based on user role and date filter
+        # Get the month from the GET request if provided, otherwise use the current month
+        filter_month = request.GET.get('month', datetime.today().month)  # Default to current month
+        
+        # Fetch attendance data based on user role and date/month filter
         if role == 'admin' or role == 'manager':  # Only allow admin/manager to view all attendance data
-            attendance_data = Attendance.objects.filter(date=filter_date)  # Filter by date
-            return render(request, 'EMSadmin/attendance.html', {'e1': attendance_data, 'filter_date': filter_date})
-        
+            if isinstance(filter_date, str) and filter_date != '':  # Check if date is provided as a string
+                # Filter attendance by exact date if a specific date is passed
+                attendance_data = Attendance.objects.filter(date=filter_date)
+            else:
+                # Filter attendance by month if no specific date is passed
+                attendance_data = Attendance.objects.filter(date__month=filter_month)
         elif role == 'manager':
-            attendance_data = Attendance.objects.filter(user=request.user, date=filter_date)  # Filter by user and date
-            return render(request, 'manager/attendance.html', {'e1': attendance_data, 'filter_date': filter_date})
-        
+            attendance_data = Attendance.objects.filter(user=request.user, date__month=filter_month)  # Filter by user and month
         elif role == 'employee':
-            attendance_data = Attendance.objects.filter(user=request.user, date=filter_date)  # Filter by user and date
-            return render(request, 'employee/attendance.html', {'e1': attendance_data, 'filter_date': filter_date})
-        
+            attendance_data = Attendance.objects.filter(user=request.user, date__month=filter_month)  # Filter by user and month
         else:
             return render(request, 'index.html')  # If the user doesn't have proper permissions
-    
+
+        # Export functionality
+        if 'export' in request.GET:
+            # Create an Excel workbook and sheet
+            wb = Workbook()
+            ws = wb.active
+            ws.title = 'Attendance Records'
+            
+            # Add headers to the Excel file
+            headers = ['Name', 'Date', 'Login Time', 'Logout Time', 'Status']
+            ws.append(headers)
+            
+            # Add attendance data to the Excel file
+            for attendance in attendance_data:
+                ws.append([
+                    attendance.user.get_full_name(),
+                    attendance.date,
+                    attendance.loginTime,
+                    attendance.logoutTime,
+                    attendance.status
+                ])
+            
+            # Create a response to send the Excel file to the user
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = f'attachment; filename="attendance_records_{filter_month}.xlsx"'
+            wb.save(response)
+            return response
+        
+        # Render the attendance page with the filtered data and the filter date
+        return render(request, 'EMSadmin/attendance.html', {'e1': attendance_data, 'filter_date': filter_date, 'filter_month': filter_month})
+
     else:
         return render(request, 'index.html')
     
