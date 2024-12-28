@@ -11,7 +11,6 @@ from datetime import datetime
 from django.utils import timezone
 from django.http import HttpResponseBadRequest, HttpResponse
 from .models.leave import Leave
-
 from .models.attendance import Attendance
 
 
@@ -595,8 +594,12 @@ def tasklist(request):
                 taskl = Task.objects.filter(manager=request.user)
                 return render(request, "manager/tasklist.html",{'taskl':taskl})
             elif role == 'employee':
-
+                manager_profile = Profile.objects.get(user =request.user)
+            # Get the list of employees who are assigned to this manager
+                emplist = Profile.objects.filter(manager=manager_profile.user)
                 taskl = Task.objects.filter(employee=request.user)
+                print(manager_profile)
+                print(emplist)
                 return render(request,'employee/tasklist.html',{'taskl':taskl})
 
 def taskcreate(request):
