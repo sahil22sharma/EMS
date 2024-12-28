@@ -1,88 +1,101 @@
-{% extends 'employee/base.html' %} {% block content %}
+{% extends 'employee/base.html' %} 
+{% block content %}
 {% load static %}
 
 <div class="dash-content">
-<div class="title">
-    <span class="text">Task List</span>
-</div>
+    <div class="title">
+        <span class="text">Task List</span>
+    </div>
 
-{% if taskl %}
-<div class="activity-data">
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="data-title">Project</th>
-                <th class="data-title">Title</th>
-                <th class="data-title">Description</th>
-                <th class="data-title">Due Date</th>
-                <th class="data-title">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in taskl %}
-            <tr>
-                <td class="data-list">{{ i.project }}</td>
-                <td class="data-list">{{ i.title }}</td>
-                <td class="data-list">{{ i.description }}</td>
-                <td class="data-list">{{ i.due_date }}</td>
-                <td class="data-list">
-                    <a href="javascript:void(0);" class="employee-name" data-id="{{ i.id }}"
-                         data-project="{{ i.project }}" data-title="{{ i.title }}"
-                        data-created_at="{{ i.created_at }}" data-due_date="{{ i.due_date }}"
-                        data-start_at="{{ i.start_at}}" data-manager="{{ i.manager }}"
-                        data-description="{{ i.description }}"
-                        data-status = "{{i.status}}">
-                        {{ i.status }}
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% if taskl %}
+    <div class="activity-data">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="data-title">Project</th>
+                    <th class="data-title">Title</th>
+                    <th class="data-title">Description</th>
+                    <th class="data-title">Due Date</th>
+                    <th class="data-title">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in taskl %}
+                <tr>
+                    <td class="data-list">{{ i.project }}</td>
+                    <td class="data-list">{{ i.title }}</td>
+                    <td class="data-list">{{ i.description }}</td>
+                    <td class="data-list">{{ i.due_date }}</td>
+                    <td class="data-list">
+                        <a href="javascript:void(0);" class="employee-name" data-id="{{ i.id }}"
+                            data-project="{{ i.project }}" data-title="{{ i.title }}"
+                            data-created_at="{{ i.created_at }}" data-due_date="{{ i.due_date }}"
+                            data-start_at="{{ i.start_at}}" data-manager="{{ i.manager }}"
+                            data-description="{{ i.description }}"
+                            data-status="{{i.status}}">
+                            {{ i.status }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <!-- Modal for Updating status-->
-    <div class="detail-model" id="assignManagerModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Task Details</h2>
-                <span class="modal-close" id="closeModal" style="cursor: pointer;">&times;</span>
-            </div>
-            <form id="assignManagerForm" action="{% url 'taskstatus' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="employee_id" id="employee_id">
-
-                <div class="modal-body">
-                    <div class="employee-details">
-                        <h3>Task Details</h3>
-                        <p><strong>Project: </strong><span id="emp_name"></span></p>
-                        <p><strong>Title: </strong><span id="emp_contact"></span></p>
-                        <p><strong>Description: </strong><span id="emp_email"></span></p>
-                        <p><strong>Due Date: </strong><span id="emp_qualification"></span></p>
-                        <p><strong>Status: </strong><span id="emp_doj"></span></p>
-                    </div>
-
-                    <div class="input-field">
-                        <label for="manager">Select Status:</label>
-                        <select name="status" id="manager" required>
-                           <option value="pending">Pending</option>
-                           <option value="in_progress">In Process</option>
-                           <option value="on_hold">On Hold</option>
-                           <option value="completed">Completed</option>
-                        </select>
-                    </div>
-
-                    <div class="input-field">
-                        <input type="submit" class="submit-btn" value="Proceed">
-                    </div>
+        <!-- Modal for Updating status-->
+        <div class="detail-model" id="assignManagerModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Task Details</h2>
+                    <span class="modal-close" id="closeModal" style="cursor: pointer;">&times;</span>
                 </div>
-            </form>
+                <form id="assignManagerForm" action="{% url 'taskstatus' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="employee_id" id="employee_id">
+
+                    <div class="modal-body">
+                        <div class="employee-details">
+                            <h3>Task Details</h3>
+                            <p><strong>Project: </strong><span id="emp_name"></span></p>
+                            <p><strong>Title: </strong><span id="emp_contact"></span></p>
+                            <p><strong>Description: </strong><span id="emp_email"></span></p>
+                            <p><strong>Due Date: </strong><span id="emp_qualification"></span></p>
+                            <p><strong>Status: </strong><span id="emp_doj"></span></p>
+                        </div>
+
+                        <!-- Dropdown to Assign Work -->
+                        <div class="input-field">
+                            <label for="assign_work">Assign Work:</label>
+                            <select name="assign_work" id="assign_work" required>
+                                <option value="">Select Employee</option>
+                                {% for employee in employees %}
+                                    <option value="{{ employee.id }}">{{ employee.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Dropdown to Select Status -->
+                        <div class="input-field">
+                            <label for="manager">Select Status:</label>
+                            <select name="status" id="manager" required>
+                               <option value="pending">Pending</option>
+                               <option value="in_progress">In Process</option>
+                               <option value="on_hold">On Hold</option>
+                               <option value="completed">Completed</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <input type="submit" class="submit-btn" value="Proceed">
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+
+    {% endif %}
 
 </div>
-{% endif %}
-
 {% block extra_js %}
 <script>
     // Open the modal and fill it with specific user data
